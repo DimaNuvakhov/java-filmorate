@@ -16,12 +16,20 @@ import java.util.Map;
 public class FilmController {
 
     private final Map<Integer, Film> films = new HashMap<>();
+    private Integer idMax = 0;
 
+    public Integer getIdMax() {
+        idMax++;
+        return idMax;
+    }
+
+    // Получение всех фильмов
     @GetMapping
     public Collection<Film> getAllFilms() {
         return films.values();
     }
 
+    // Добавление фильма
     @PostMapping
     public Film createFilm(@RequestBody Film film) {
         if (film.getId() != null) {
@@ -30,7 +38,7 @@ public class FilmController {
         if (film.getName().isBlank()) {
             throw new ValidationException("Название фильма не может быть пустым");
         }
-        if (film.getDescription().length() < 200) {
+        if (film.getDescription().length() > 200) {
             throw new ValidationException("Максимальная длина описания — 200 символов");
         }
         if (film.getReleaseDate().isBefore(LocalDate.of(1985, 12, 28))) {
@@ -39,11 +47,12 @@ public class FilmController {
         if (film.getFilmDuration() < 0) {
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
-        // Сгенерировать id и установаить его
+        film.setId(getIdMax());
         films.put(film.getId(), film);
         return film;
     }
 
+    // Обновление фильма
     @PutMapping
     public Film putFilm(@RequestBody Film film) {
         if (film.getId() == null || !films.containsKey(film.getId())) {
@@ -52,7 +61,7 @@ public class FilmController {
         if (film.getName().isBlank()) {
             throw new ValidationException("Название фильма не может быть пустым");
         }
-        if (film.getDescription().length() < 200) {
+        if (film.getDescription().length() > 200) {
             throw new ValidationException("Максимальная длина описания — 200 символов");
         }
         if (film.getReleaseDate().isBefore(LocalDate.of(1985, 12, 28))) {
@@ -61,7 +70,6 @@ public class FilmController {
         if (film.getFilmDuration() < 0) {
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
-        // Изменить поля по id
         films.put(film.getId(), film);
         return film;
     }

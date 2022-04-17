@@ -11,16 +11,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/films")
+@RequestMapping("/users")
 public class UserController {
 
     private final Map<Integer, User> users = new HashMap<>();
+    private Integer idMax = 0;
 
+    public Integer getIdMax() {
+        idMax++;
+        return idMax;
+    }
+
+    // Получение списка всех пользователей
     @GetMapping
     public Collection<User> getAllUsers() {
         return users.values();
     }
 
+    // Создание пользователя
     @PostMapping
     public User createUser(@RequestBody User user) {
         if (user.getId() != null) {
@@ -38,15 +46,16 @@ public class UserController {
         if (user.getBirthDate().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
-        // Сгенерировать id и установаить его
+        user.setId(getIdMax());
         users.put(user.getId(), user);
         return user;
     }
 
+    // Обновление пользователя
     @PutMapping
     public User putUser(@RequestBody User user) {
-        if (user.getId() == null) {
-            throw new ValidationException("Для обновления пользователя необходимо передать его id");
+        if (user.getId() == null || !users.containsKey(user.getId())) {
+            throw new ValidationException("Для обновления пользователя необходимо передать его корректный id");
         }
         if (user.getEmail().isBlank() && !user.getEmail().contains("@")) {
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
@@ -60,7 +69,6 @@ public class UserController {
         if (user.getBirthDate().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
-        // Изменить поля по id
         users.put(user.getId(), user);
         return user;
     }
