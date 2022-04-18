@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import java.time.LocalDate;
 
 public class User {
+
     Integer id;
     String email;
     String login;

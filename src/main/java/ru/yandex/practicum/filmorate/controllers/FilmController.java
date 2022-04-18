@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -15,6 +17,7 @@ import java.util.Map;
 @RequestMapping("/films")
 public class FilmController {
 
+    private static final Logger log = LoggerFactory.getLogger(FilmController.class);
     private final Map<Integer, Film> films = new HashMap<>();
     private Integer idMax = 0;
 
@@ -49,6 +52,7 @@ public class FilmController {
         }
         film.setId(getIdMax());
         films.put(film.getId(), film);
+        log.info("Фильм " + film.getName() + " добавлен в систему");
         return film;
     }
 
@@ -71,6 +75,7 @@ public class FilmController {
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
         films.put(film.getId(), film);
+        log.info("Фильм " + film.getName() + " обновлен в системе");
         return film;
     }
 }
