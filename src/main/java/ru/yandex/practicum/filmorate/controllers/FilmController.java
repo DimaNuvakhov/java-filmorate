@@ -29,6 +29,7 @@ public class FilmController {
     // Получение всех фильмов
     @GetMapping
     public Collection<Film> getAllFilms() {
+        log.debug("Текущее количество добавленных фильмов: {}", films.size());
         return films.values();
     }
 

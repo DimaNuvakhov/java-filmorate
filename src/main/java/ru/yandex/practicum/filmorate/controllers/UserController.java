@@ -28,6 +28,7 @@ public class UserController {
     // Получение списка всех пользователей
     @GetMapping
     public Collection<User> getAllUsers() {
+        log.debug("Текущее количество добавленных пользователей: {}", users.size());
         return users.values();
     }
 
@@ -35,18 +36,22 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         if (user.getId() != null) {
+            log.info("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
             throw new ValidationException("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
         }
         if (user.getEmail().isBlank() && !user.getEmail().contains("@")) {
+            log.info("Электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }
         if (user.getLogin().isBlank() && user.getLogin().contains(" ")) {
+            log.info("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }
         if (user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
         if (user.getBirthDate().isAfter(LocalDate.now())) {
+            log.info("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
         user.setId(getIdMax());
