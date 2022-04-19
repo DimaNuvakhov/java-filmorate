@@ -39,11 +39,11 @@ public class UserController {
             log.info("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
             throw new ValidationException("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
         }
-        if (user.getEmail().isBlank() && !user.getEmail().contains("@")) {
+        if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.info("Электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }
-        if (user.getLogin().isBlank() && user.getLogin().contains(" ")) {
+        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
             log.info("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }
@@ -51,7 +51,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         if (user.getBirthDate().isAfter(LocalDate.now())) {
-            log.info("Логин не может быть пустым и содержать пробелы");
+            log.info("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
         user.setId(getIdMax());
@@ -80,7 +80,7 @@ public class UserController {
 
         }
         users.put(user.getId(), user);
-        log.info("Пользователь " + user.getLogin() + " обновлен в системе");
+        log.info("Пользователь под id = " + user.getId() + " обновлен в системе");
         return user;
     }
 }

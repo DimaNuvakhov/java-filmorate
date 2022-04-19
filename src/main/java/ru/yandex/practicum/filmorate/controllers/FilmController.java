@@ -76,7 +76,7 @@ public class FilmController {
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
         films.put(film.getId(), film);
-        log.info("Фильм " + film.getName() + " обновлен в системе");
+        log.info("Фильм под id = " + film.getId() + " обновлен в системе");
         return film;
     }
 }
