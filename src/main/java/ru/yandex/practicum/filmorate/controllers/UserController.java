@@ -36,27 +36,29 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         if (user.getId() != null) {
-            log.info("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
+            log.error("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
             throw new ValidationException("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
         }
         if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
-            log.info("Электронная почта не может быть пустой и должна содержать символ @");
+            log.error("Электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }
         if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
-            log.info("Логин не может быть пустым и содержать пробелы");
+            log.error("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }
         if (user.getName().isBlank()) {
+            log.warn("Имя пользователя не передано, вместо имени установлен переданный логин");
             user.setName(user.getLogin());
         }
         if (user.getBirthDate().isAfter(LocalDate.now())) {
-            log.info("Дата рождения пользователя не может быть в будущем");
+            log.error("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
         user.setId(getIdMax());
         users.put(user.getId(), user);
         log.info("Пользователь " + user.getLogin() + " добавлен в систему");
+        log.debug(user.toString());
         return user;
     }
 
@@ -64,23 +66,28 @@ public class UserController {
     @PutMapping
     public User putUser(@RequestBody User user) {
         if (user.getId() == null || !users.containsKey(user.getId())) {
+            log.error("Для обновления пользователя необходимо передать его корректный id");
             throw new ValidationException("Для обновления пользователя необходимо передать его корректный id");
         }
-        if (user.getEmail().isBlank() && !user.getEmail().contains("@")) {
+        if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+            log.error("Электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }
-        if (user.getLogin().isBlank() && user.getLogin().contains(" ")) {
+        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
+            log.error("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }
         if (user.getName().isBlank()) {
+            log.warn("Имя пользователя не передано, вместо имени установлен переданный логин");
             user.setName(user.getLogin());
         }
         if (user.getBirthDate().isAfter(LocalDate.now())) {
+            log.error("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
-
         }
         users.put(user.getId(), user);
         log.info("Пользователь под id = " + user.getId() + " обновлен в системе");
+        log.debug(user.toString());
         return user;
     }
 }
