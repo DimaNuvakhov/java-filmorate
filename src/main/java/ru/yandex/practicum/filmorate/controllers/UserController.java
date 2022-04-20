@@ -51,7 +51,7 @@ public class UserController {
             log.warn("Имя пользователя не передано, вместо имени установлен переданный логин");
             user.setName(user.getLogin());
         }
-        if (user.getBirthDate().isAfter(LocalDate.now())) {
+        if (user.getBirthday().isAfter(LocalDate.now())) {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
@@ -81,7 +81,7 @@ public class UserController {
             log.warn("Имя пользователя не передано, вместо имени установлен переданный логин");
             user.setName(user.getLogin());
         }
-        if (user.getBirthDate().isAfter(LocalDate.now())) {
+        if (user.getBirthday().isAfter(LocalDate.now())) {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }

@@ -52,7 +52,7 @@ public class FilmController {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new ValidationException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
         }
-        if (film.getFilmDuration() < 0) {
+        if (film.getDuration() < 0) {
             log.error("Продолжительность фильма не может быть отрицательной");
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
@@ -82,7 +82,7 @@ public class FilmController {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new ValidationException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
         }
-        if (film.getFilmDuration() < 0) {
+        if (film.getDuration() < 0) {
             log.error("Продолжительность фильма не может быть отрицательной");
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
