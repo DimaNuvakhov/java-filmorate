@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e337606f-5df6-47d0-9784-7fa89c1b51fe",
+		"_postman_id": "3d0d1df9-18ae-4466-8188-682a5065af50",
 		"name": "API Test Sprint 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -45,10 +45,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "localhost:8094/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -70,10 +71,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/users",
+									"raw": "localhost:8094/users",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"users"
 									]
@@ -130,10 +132,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "localhost:8094/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -155,10 +158,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/users",
+									"raw": "localhost:8094/users",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"users"
 									]
@@ -202,10 +206,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "localhost:8094/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -218,10 +223,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/users",
+									"raw": "localhost:8094/users",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"users"
 									]
@@ -283,10 +289,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/films",
+							"raw": "localhost:8094/films",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -308,10 +315,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/films",
+									"raw": "localhost:8094/films",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"films"
 									]
@@ -368,10 +376,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/films",
+							"raw": "localhost:8094/films",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -393,10 +402,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/films",
+									"raw": "localhost:8094/films",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"films"
 									]
@@ -431,6 +441,9 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -439,11 +452,16 @@
 								"value": "*/*"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{baseUrl}}/films",
+							"raw": "localhost:8094/films",
 							"host": [
-								"{{baseUrl}}"
+								"localhost"
 							],
+							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -456,10 +474,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/films",
+									"raw": "localhost:8094/films",
 									"host": [
-										"{{baseUrl}}"
+										"localhost"
 									],
+									"port": "8094",
 									"path": [
 										"films"
 									]
