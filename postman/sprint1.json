@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3d0d1df9-18ae-4466-8188-682a5065af50",
+		"_postman_id": "e337606f-5df6-47d0-9784-7fa89c1b51fe",
 		"name": "API Test Sprint 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -37,7 +37,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"mail@mail.ru\",\n  \"login\": \"doloreullamco\",\n  \"name\": \"est adipisicing\",\n  \"birthday\": \"1946-08-20\"\n}",
+							"raw": "{\n  \"login\": \"dolore\",\n  \"name\": \"est adipisicing\",\n  \"email\": \"mail@mail.ru\",\n  \"birthday\": \"1946-08-20\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,11 +45,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "{{baseUrl}}/users",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -71,11 +70,95 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "{{baseUrl}}/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "create Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"dolore ullamco\",\n  \"email\": \"mail.ru\",\n  \"birthday\": \"2446-08-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"login\": \"dolore ullamco\",\n  \"name\": \"est adipisicing\",\n  \"id\": -35528664,\n  \"email\": \"Lorem mollit nisi anim\",\n  \"birthday\": \"1946-08-20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
 									"path": [
 										"users"
 									]
@@ -124,7 +207,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"doloreullamco\",\n  \"name\": \"est adipisicing\",\n  \"id\": 1,\n  \"email\": \"mail@yandex.ru\",\n  \"birthday\": \"1946-08-20\"\n}",
+							"raw": "{\n  \"login\": \"dolore\",\n  \"name\": \"est adipisicing\",\n  \"id\": 1,\n  \"email\": \"mail@yandex.ru\",\n  \"birthday\": \"1946-08-20\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -132,11 +215,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "{{baseUrl}}/users",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -150,7 +232,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"login\": \"dolore ullamco\",\n  \"name\": \"est adipisicing\",\n  \"id\": -35528664,\n  \"email\": \"Lorem mollit nisi anim\",\n  \"birthday\": \"1946-08-20\"\n}",
+									"raw": "{\n  \"login\": \"dolore\",\n  \"name\": \"est adipisicing\",\n  \"id\": -35528664,\n  \"email\": \"Lorem mollit nisi anim\",\n  \"birthday\": \"1946-08-20\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -158,11 +240,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "{{baseUrl}}/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
 									"path": [
 										"users"
 									]
@@ -206,11 +287,10 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "{{baseUrl}}/users",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"users"
 							]
@@ -223,11 +303,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "{{baseUrl}}/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
 									"path": [
 										"users"
 									]
@@ -281,7 +360,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1986-03-25\",\n  \"duration\": 100\n}",
+							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1967-03-25\",\n  \"duration\": 100\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -289,11 +368,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "{{baseUrl}}/films",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -315,11 +393,95 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "{{baseUrl}}/films",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
+									"path": [
+										"films"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "create Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"description\": \"\",\n  \"releaseDate\": \"1900-03-25\",\n  \"duration\": -100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/films",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"films"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"id\": -7113753,\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1967-03-25\",\n  \"duration\": 33722088\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/films",
+									"host": [
+										"{{baseUrl}}"
+									],
 									"path": [
 										"films"
 									]
@@ -368,7 +530,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"id\": 1,\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1986-03-25\",\n  \"duration\": 120\n}",
+							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"id\": 1,\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1967-03-25\",\n  \"duration\": 120\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -376,11 +538,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "{{baseUrl}}/films",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -402,11 +563,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "{{baseUrl}}/films",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
 									"path": [
 										"films"
 									]
@@ -441,9 +601,6 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -452,16 +609,11 @@
 								"value": "*/*"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "{{baseUrl}}/films",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8094",
 							"path": [
 								"films"
 							]
@@ -474,11 +626,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "{{baseUrl}}/films",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "8094",
 									"path": [
 										"films"
 									]
