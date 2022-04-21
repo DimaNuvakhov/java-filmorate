@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ae8f183c-c085-42ad-a322-b90d8d822f4f",
+		"_postman_id": "6fc9c865-733b-4de9-aa0b-526d2e8852b7",
 		"name": "API Test Sprint 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -309,10 +309,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "localhost:8094/users",
 									"host": [
@@ -372,7 +368,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1986-03-25\",\n  \"duration\": 100\n}",
+							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1967-03-25\",\n  \"duration\": 100\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -546,7 +542,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"id\": 1,\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1987-03-25\",\n  \"duration\": 120\n}",
+							"raw": "{\n  \"name\": \"nisi eiusmod\",\n  \"id\": 1,\n  \"description\": \"adipisicing\",\n  \"releaseDate\": \"1967-03-25\",\n  \"duration\": 120\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -48,7 +48,7 @@ public class FilmController {
             log.error("Максимальная длина описания — 200 символов");
             throw new ValidationException("Максимальная длина описания — 200 символов");
         }
-        if (film.getReleaseDate().isBefore(LocalDate.of(1985, 12, 28))) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new ValidationException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
         }
@@ -78,7 +78,7 @@ public class FilmController {
             log.error("Максимальная длина описания — 200 символов");
             throw new ValidationException("Максимальная длина описания — 200 символов");
         }
-        if (film.getReleaseDate().isBefore(LocalDate.of(1985, 12, 28))) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new ValidationException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
         }
