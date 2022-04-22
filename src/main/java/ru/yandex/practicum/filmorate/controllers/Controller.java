@@ -1,30 +1,28 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Controller<T>  {
 
-    private final Map<Integer, T> items = new HashMap<>();
-    private Integer idMax = 0;
+    protected static final Logger log = LoggerFactory.getLogger(FilmController.class);
+    protected final Map<Integer, T> items = new HashMap<>();
+    protected Integer idMax = 0;
 
     public Integer getIdMax() {
-        idMax++;
+        idMax = idMax + 1;
         return idMax;
     }
 
-    Collection<T> getAll() {
-        return items.values();
-    }
+    abstract public Collection<T> getAll();
 
-    public T add(T t) {
-        return t;
-    }
+    abstract public T add(T t);
 
-    public T update(T t) {
-        return t;
-    }
+    abstract public T update(T t);
 
 }

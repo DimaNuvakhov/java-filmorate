@@ -17,24 +17,17 @@ import java.util.Map;
 @RequestMapping("/films")
 public class FilmController extends Controller<Film> {
 
-    private static final Logger log = LoggerFactory.getLogger(FilmController.class);
-    private final Map<Integer, Film> films = new HashMap<>();
-    private Integer idMax = 0;
-
-    public Integer getIdMax() {
-        idMax++;
-        return idMax;
-    }
-
     // Получение всех фильмов
     @GetMapping
+    @Override
     public Collection<Film> getAll() {
-        log.debug("Текущее количество добавленных фильмов: {}", films.size());
-        return films.values();
+        log.debug("Текущее количество добавленных фильмов: {}", items.size());
+        return items.values();
     }
 
     // Добавление фильма
     @PostMapping
+    @Override
     public Film add(@RequestBody Film film) {
         if (film.getId() != null) {
             log.error("Фильм еще не добавлен в базу данных, вы не можете передавать id");
@@ -57,7 +50,7 @@ public class FilmController extends Controller<Film> {
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
         film.setId(getIdMax());
-        films.put(film.getId(), film);
+        items.put(film.getId(), film);
         log.info("Фильм " + film.getName() + " добавлен в систему");
         log.debug(film.toString());
         return film;
@@ -65,8 +58,9 @@ public class FilmController extends Controller<Film> {
 
     // Обновление фильма
     @PutMapping
+    @Override
     public Film update(@RequestBody Film film) {
-        if (film.getId() == null || !films.containsKey(film.getId())) {
+        if (film.getId() == null || !items.containsKey(film.getId())) {
             log.error("Для обновления фильма необходимо передать его корректный id");
             throw new ValidationException("Для обновления фильма необходимо передать его корректный id");
         }
@@ -86,7 +80,7 @@ public class FilmController extends Controller<Film> {
             log.error("Продолжительность фильма не может быть отрицательной");
             throw new ValidationException("Продолжительность фильма не может быть отрицательной");
         }
-        films.put(film.getId(), film);
+        items.put(film.getId(), film);
         log.info("Фильм под id = " + film.getId() + " обновлен в системе");
         log.debug(film.toString());
         return film;

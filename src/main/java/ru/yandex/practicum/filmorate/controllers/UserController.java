@@ -14,26 +14,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
-
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private final Map<Integer, User> users = new HashMap<>();
-    private Integer idMax = 0;
-
-    public Integer getIdMax() {
-        idMax++;
-        return idMax;
-    }
+public class UserController extends Controller<User>{
 
     // Получение списка всех пользователей
     @GetMapping
+    @Override
     public Collection<User> getAll() {
-        log.debug("Текущее количество добавленных пользователей: {}", users.size());
-        return users.values();
+        log.debug("Текущее количество добавленных пользователей: {}", items.size());
+        return items.values();
     }
 
     // Создание пользователя
     @PostMapping
+    @Override
     public User add(@RequestBody User user) {
         if (user.getId() != null) {
             log.error("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
@@ -56,7 +49,7 @@ public class UserController {
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
         user.setId(getIdMax());
-        users.put(user.getId(), user);
+        items.put(user.getId(), user);
         log.info("Пользователь " + user.getLogin() + " добавлен в систему");
         log.debug(user.toString());
         return user;
@@ -64,8 +57,9 @@ public class UserController {
 
     // Обновление пользователя
     @PutMapping
+    @Override
     public User update(@RequestBody User user) {
-        if (user.getId() == null || !users.containsKey(user.getId())) {
+        if (user.getId() == null || !items.containsKey(user.getId())) {
             log.error("Для обновления пользователя необходимо передать его корректный id");
             throw new ValidationException("Для обновления пользователя необходимо передать его корректный id");
         }
@@ -85,7 +79,7 @@ public class UserController {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new ValidationException("Дата рождения пользователя не может быть в будущем");
         }
-        users.put(user.getId(), user);
+        items.put(user.getId(), user);
         log.info("Пользователь под id = " + user.getId() + " обновлен в системе");
         log.debug(user.toString());
         return user;
