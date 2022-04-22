@@ -45,11 +45,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "localhost:8096/users",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"users"
 							]
@@ -71,11 +71,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "localhost:8096/users",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"users"
 									]
@@ -132,11 +132,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "localhost:8096/users",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"users"
 							]
@@ -158,11 +158,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "localhost:8096/users",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"users"
 									]
@@ -219,11 +219,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "localhost:8096/users",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"users"
 							]
@@ -245,11 +245,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "localhost:8096/users",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"users"
 									]
@@ -293,11 +293,11 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8094/users",
+							"raw": "localhost:8096/users",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"users"
 							]
@@ -310,11 +310,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8094/users",
+									"raw": "localhost:8096/users",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"users"
 									]
@@ -376,11 +376,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "localhost:8096/films",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"films"
 							]
@@ -402,11 +402,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "localhost:8096/films",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"films"
 									]
@@ -463,11 +463,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "localhost:8096/films",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"films"
 							]
@@ -489,11 +489,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "localhost:8096/films",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"films"
 									]
@@ -550,11 +550,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "localhost:8096/films",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"films"
 							]
@@ -576,11 +576,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "localhost:8096/films",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"films"
 									]
@@ -624,11 +624,11 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8094/films",
+							"raw": "localhost:8096/films",
 							"host": [
 								"localhost"
 							],
-							"port": "8094",
+							"port": "8096",
 							"path": [
 								"films"
 							]
@@ -641,11 +641,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8094/films",
+									"raw": "localhost:8096/films",
 									"host": [
 										"localhost"
 									],
-									"port": "8094",
+									"port": "8096",
 									"path": [
 										"films"
 									]
