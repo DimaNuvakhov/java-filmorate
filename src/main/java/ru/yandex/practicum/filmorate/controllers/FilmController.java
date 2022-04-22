@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
-public class FilmController {
+public class FilmController extends Controller<Film> {
 
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
     private final Map<Integer, Film> films = new HashMap<>();
@@ -28,14 +28,14 @@ public class FilmController {
 
     // Получение всех фильмов
     @GetMapping
-    public Collection<Film> getAllFilms() {
+    public Collection<Film> getAll() {
         log.debug("Текущее количество добавленных фильмов: {}", films.size());
         return films.values();
     }
 
     // Добавление фильма
     @PostMapping
-    public Film createFilm(@RequestBody Film film) {
+    public Film add(@RequestBody Film film) {
         if (film.getId() != null) {
             log.error("Фильм еще не добавлен в базу данных, вы не можете передавать id");
             throw new ValidationException("Фильм еще не добавлен в базу данных, вы не можете передавать id");
@@ -65,7 +65,7 @@ public class FilmController {
 
     // Обновление фильма
     @PutMapping
-    public Film putFilm(@RequestBody Film film) {
+    public Film update(@RequestBody Film film) {
         if (film.getId() == null || !films.containsKey(film.getId())) {
             log.error("Для обновления фильма необходимо передать его корректный id");
             throw new ValidationException("Для обновления фильма необходимо передать его корректный id");

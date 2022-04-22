@@ -27,14 +27,14 @@ public class UserController {
 
     // Получение списка всех пользователей
     @GetMapping
-    public Collection<User> getAllUsers() {
+    public Collection<User> getAll() {
         log.debug("Текущее количество добавленных пользователей: {}", users.size());
         return users.values();
     }
 
     // Создание пользователя
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User add(@RequestBody User user) {
         if (user.getId() != null) {
             log.error("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
             throw new ValidationException("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
@@ -64,7 +64,7 @@ public class UserController {
 
     // Обновление пользователя
     @PutMapping
-    public User putUser(@RequestBody User user) {
+    public User update(@RequestBody User user) {
         if (user.getId() == null || !users.containsKey(user.getId())) {
             log.error("Для обновления пользователя необходимо передать его корректный id");
             throw new ValidationException("Для обновления пользователя необходимо передать его корректный id");
