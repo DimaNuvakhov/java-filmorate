@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Data
 public class Film {
@@ -15,4 +17,5 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private Integer duration;
+    private Set<Integer> likes;
 }
