@@ -120,7 +120,10 @@ public class UserService {
     }
 
     public Collection<Integer> getUserFriends(Integer id) {
-         return userStorage.getAllUsers().get(id).getFriends();
+        return userStorage.getAllUsers().get(id).getFriends();
     }
 
+//    public Collection<Integer> getCommonFriends(Integer id, Integer otherId) {
+//
+//    }
 }
