@@ -17,5 +17,5 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private Integer duration;
-    private Set<Integer> likes;
+    private Set<Integer> likes = new TreeSet<>();
 }

@@ -84,4 +84,43 @@ public class UserService {
     public User getUserById(Integer id) {
         return userStorage.getUser(id);
     }
+
+    public Boolean addAsFriend(Integer id, Integer friendId) {
+        if (!userStorage.getAllUsers().containsKey(id)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+        }
+        User user = userStorage.getUser(id);
+        if (!userStorage.getAllUsers().containsKey(friendId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
+        }
+        User newFriend = userStorage.getUser(friendId);
+        if (id.equals(friendId)) {
+            throw new IllegalAddAsFriendException("Пользователь не может добавть в друзья сам себя");
+        }
+        user.getFriends().add(newFriend.getId());
+        newFriend.getFriends().add(user.getId());
+        return true;
+    }
+
+    public Boolean removeFromFriends(Integer id, Integer friendId) {
+        if (!userStorage.getAllUsers().containsKey(id)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+        }
+        User user = userStorage.getUser(id);
+        if (!userStorage.getAllUsers().containsKey(friendId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
+        }
+        User removedFriend = userStorage.getUser(friendId);
+        if (!user.getFriends().contains(removedFriend.getId()) || !removedFriend.getFriends().contains(user.getId())) {
+            throw new UsersNotFriendsException("Пользователи не являются друзьями");
+        }
+        user.getFriends().remove(removedFriend.getId());
+        removedFriend.getFriends().remove(user.getId());
+        return true;
+    }
+
+    public Collection<Integer> getUserFriends(Integer id) {
+         return userStorage.getAllUsers().get(id).getFriends();
+    }
+
 }

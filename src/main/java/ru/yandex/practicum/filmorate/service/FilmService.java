@@ -80,4 +80,11 @@ public class FilmService {
         log.debug("Текущее количество добавленных фильмов: {}", filmStorage.getAllFilms().size());
         return filmStorage.getAllFilms().values();
     }
+
+    public Boolean likeFilm(Integer id, Integer userId) {
+       Film film = filmStorage.getAllFilms().get(id);
+       film.getLikes().add(userId); // Не могу сделать валидацию того, добавлен ли пользователь с переданным id в систему
+        return null;
+    }
+
 }

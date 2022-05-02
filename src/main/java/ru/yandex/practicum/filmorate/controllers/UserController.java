@@ -46,22 +46,21 @@ public class UserController extends Controller<User>{
         return userService.getUserById(id);
     }
 
-    // TODO Доделать
     @PutMapping("/{id}/friends/{friendId}")
-    public User addAsFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
-        return null;
+    public Boolean addAsFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        return userService.addAsFriend(id, friendId);
     }
 
     // TODO Доделать
     @DeleteMapping("/{id}/friends/{friendId}")
-    public User removeFromFriends(@PathVariable Integer id, @PathVariable Integer friendId) {
-        return null;
+    public Boolean removeFromFriends(@PathVariable Integer id, @PathVariable Integer friendId) {
+        return userService.removeFromFriends(id, friendId);
     }
 
     // TODO Доделать
     @GetMapping("/{id}/friends")
-    public List<User> getUserFriends(@PathVariable Integer id) {
-        return null;
+    public Collection<Integer> getUserFriends(@PathVariable Integer id) {
+        return userService.getUserFriends(id);
     }
 
     // TODO Доделать
