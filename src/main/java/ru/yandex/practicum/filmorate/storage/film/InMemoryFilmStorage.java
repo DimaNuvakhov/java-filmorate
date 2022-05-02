@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.FilmAlreadyExistException;
+import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.Collection;
@@ -20,29 +22,37 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film createFilm(Film film) {
-        // Сделать валидацию, что есть в мапе ключа иначе исключение, записать id  в переменную и сделать валидацию
         film.setId(getIdMax());
+        if (films.containsKey(film.getId())) {
+            throw new FilmAlreadyExistException(String.format("Фильм с id %d уже добавлен в систему", film.getId()));
+        }
         films.put(film.getId(), film);
         return film;
     }
 
     @Override
     public Film updateFilm(Film film) {
-        // Сделать валидацию, что есть в мапе ключа иначе исключение
+        if (!films.containsKey(film.getId())) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", film.getId()));
+        }
         films.put(film.getId(), film);
         return film;
     }
 
     @Override
     public Boolean deleteFilm(Integer filmId) {
-        // Сделать валидацию, что есть в мапе ключа иначе исключение
+        if (!films.containsKey(filmId)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", filmId));
+        }
         films.remove(filmId);
         return true;
     }
 
     @Override
     public Film getFilm(Integer filmId) {
-        // Сделать валидацию, что есть в мапе ключа иначе исключение
+        if (!films.containsKey(filmId)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", filmId));
+        }
         return films.get(filmId);
     }
 
