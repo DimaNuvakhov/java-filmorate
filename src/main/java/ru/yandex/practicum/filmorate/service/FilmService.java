@@ -125,10 +125,9 @@ public class FilmService {
         return true;
     }
 
-    public List<Integer> getTopRatedMovies(Integer count) {
+    public List<Film> getTopRatedMovies(Integer count) {
         return filmStorage.getAllFilms().values().stream()
                 .sorted((f1,f2) -> f2.getLikes().size() - f1.getLikes().size())
-                .map(f -> f.getId())
                 .limit(count)
                 .collect(Collectors.toList());
     }

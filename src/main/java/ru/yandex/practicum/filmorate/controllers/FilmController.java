@@ -57,8 +57,8 @@ public class FilmController extends Controller<Film> {
     }
 
     @GetMapping("/popular")
-    public List<Integer> getFilms(@RequestParam(defaultValue = "10", required = false) Integer count) {
-        List<Integer> list = filmService.getTopRatedMovies(count);
+    public List<Film> getFilms(@RequestParam(defaultValue = "10", required = false) Integer count) {
+        List<Film> list = filmService.getTopRatedMovies(count);
         return list;
     }
 }

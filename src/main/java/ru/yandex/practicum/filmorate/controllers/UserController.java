@@ -57,12 +57,12 @@ public class UserController extends Controller<User>{
     }
 
     @GetMapping("/{id}/friends")
-    public Collection<User> getUserFriends(@PathVariable Integer id) {
+    public List<User> getUserFriends(@PathVariable Integer id) {
         return userService.getUserFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<Integer> getUsersCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+    public List<User> getUsersCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
         return userService.getCommonFriends(id, otherId);
     }
 }

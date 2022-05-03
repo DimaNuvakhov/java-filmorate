@@ -109,8 +109,8 @@ public class UserService {
         if (id.equals(friendId)) {
             throw new IllegalAddAsFriendException("Пользователь не может добавть в друзья сам себя");
         }
-        user.getFriends().add(newFriend.getId());
-        newFriend.getFriends().add(user.getId());
+        user.getFriends().add(friendId);
+        newFriend.getFriends().add(id);
         return true;
     }
 
@@ -123,21 +123,21 @@ public class UserService {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
         }
         User removedFriend = userStorage.getUser(friendId);
-        if (!user.getFriends().contains(removedFriend.getId()) || !removedFriend.getFriends().contains(user.getId())) {
+        if (!user.getFriends().contains(friendId) || !removedFriend.getFriends().contains(id)) {
             throw new UsersNotFriendsException("Пользователи не являются друзьями");
         }
-        user.getFriends().remove(removedFriend.getId());
-        removedFriend.getFriends().remove(user.getId());
+        user.getFriends().remove(friendId);
+        removedFriend.getFriends().remove(id);
         return true;
     }
 
-    public Collection<User> getUserFriends(Integer id) {
+    public List<User> getUserFriends(Integer id) {
         return userStorage.getAllUsers().get(id).getFriends().stream()
                 .map(u -> userStorage.getAllUsers().get(u))
                 .collect(Collectors.toList());
     }
 
-    public List<Integer> getCommonFriends(Integer id, Integer friendId) {
+    public List<User> getCommonFriends(Integer id, Integer friendId) {
         if (!userStorage.getAllUsers().containsKey(id)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
         }
@@ -146,11 +146,12 @@ public class UserService {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
         }
         User friend = userStorage.getUser(friendId);
-        if (!user.getFriends().contains(friend.getId()) || !friend.getFriends().contains(user.getId())) {
+        if (!user.getFriends().contains(friendId) || !friend.getFriends().contains(id)) {
             throw new UsersNotFriendsException("Пользователи не являются друзьями");
         }
         return user.getFriends().stream()
                 .filter(u -> friend.getFriends().contains(u))
+                .map(u -> userStorage.getAllUsers().get(u))
                 .collect(Collectors.toList());
     }
 }
