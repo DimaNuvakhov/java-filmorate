@@ -91,6 +91,9 @@ public class UserService {
     }
 
     public User getUserById(Integer id) {
+        if (!userStorage.getAllUsers().containsKey(id)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+        }
         return userStorage.getUser(id);
     }
 
@@ -128,8 +131,10 @@ public class UserService {
         return true;
     }
 
-    public Collection<Integer> getUserFriends(Integer id) {
-        return userStorage.getAllUsers().get(id).getFriends();
+    public Collection<User> getUserFriends(Integer id) {
+        return userStorage.getAllUsers().get(id).getFriends().stream()
+                .map(u -> userStorage.getAllUsers().get(u))
+                .collect(Collectors.toList());
     }
 
     public List<Integer> getCommonFriends(Integer id, Integer friendId) {

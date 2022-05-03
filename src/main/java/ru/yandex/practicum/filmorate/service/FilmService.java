@@ -41,6 +41,10 @@ public class FilmService {
             log.error("Максимальная длина описания — 200 символов");
             throw new InvalidDescriptionException("Максимальная длина описания — 200 символов");
         }
+        if (film.getDescription().isBlank()) {
+            log.error("Описание фильма не может быть пустым");
+            throw new InvalidDescriptionException("Описание фильма не может быть пустым");
+        }
         if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new InvalidDateException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
@@ -68,6 +72,10 @@ public class FilmService {
             log.error("Максимальная длина описания — 200 символов");
             throw new InvalidDescriptionException("Максимальная длина описания — 200 символов");
         }
+        if (film.getDescription().isBlank()) {
+            log.error("Описание фильма не может быть пустым");
+            throw new InvalidDescriptionException("Описание фильма не может быть пустым");
+        }
         if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             log.error("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
             throw new InvalidDateException("Дата релиза фильма должна быть не раньше 28 декабря 1895 года");
@@ -84,6 +92,13 @@ public class FilmService {
     public Collection<Film> getAllFilms() {
         log.debug("Текущее количество добавленных фильмов: {}", filmStorage.getAllFilms().size());
         return filmStorage.getAllFilms().values();
+    }
+
+    public Film getFilmById(Integer id) {
+        if (!filmStorage.getAllFilms().containsKey(id)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
+        }
+        return filmStorage.getAllFilms().get(id);
     }
 
     public Boolean likeMovie(Integer id, Integer userId) {

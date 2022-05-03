@@ -99,7 +99,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUsersNotFriendsException(final UsersNotFriendsException e) {
         return new ErrorResponse(
                 e.getMessage()
