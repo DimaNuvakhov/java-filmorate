@@ -8,19 +8,24 @@ import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
+    private final UserStorage userStorage;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
-    public FilmService(FilmStorage filmStorage) {
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
         this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
     }
 
     public Film createFilm(Film film) {
@@ -81,10 +86,35 @@ public class FilmService {
         return filmStorage.getAllFilms().values();
     }
 
-    public Boolean likeFilm(Integer id, Integer userId) {
-       Film film = filmStorage.getAllFilms().get(id);
-       film.getLikes().add(userId); // Не могу сделать валидацию того, добавлен ли пользователь с переданным id в систему
-        return null;
+    public Boolean likeMovie(Integer id, Integer userId) {
+        if (!filmStorage.getAllFilms().containsKey(id)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
+        }
+        Film film = filmStorage.getAllFilms().get(id);
+        if (!userStorage.getAllUsers().containsKey(userId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
+        }
+        film.getLikes().add(userId);
+        return true;
     }
 
+    public Boolean removeLike(Integer id, Integer userId) {
+        if (!filmStorage.getAllFilms().containsKey(id)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
+        }
+        Film film = filmStorage.getAllFilms().get(id);
+        if (!film.getLikes().contains(userId)) {
+            throw new UsersNotFriendsException(String.format("Пользователь с id %d не поставил лайк фильму", userId));
+        }
+        film.getLikes().remove(userId);
+        return true;
+    }
+
+    public List<Integer> getTopRatedMovies(Integer count) {
+        return filmStorage.getAllFilms().values().stream()
+                .sorted((f1,f2) -> f2.getLikes().size() - f1.getLikes().size())
+                .map(f -> f.getId())
+                .limit(count)
+                .collect(Collectors.toList());
+    }
 }

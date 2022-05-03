@@ -51,21 +51,18 @@ public class UserController extends Controller<User>{
         return userService.addAsFriend(id, friendId);
     }
 
-    // TODO Доделать
     @DeleteMapping("/{id}/friends/{friendId}")
     public Boolean removeFromFriends(@PathVariable Integer id, @PathVariable Integer friendId) {
         return userService.removeFromFriends(id, friendId);
     }
 
-    // TODO Доделать
     @GetMapping("/{id}/friends")
     public Collection<Integer> getUserFriends(@PathVariable Integer id) {
         return userService.getUserFriends(id);
     }
 
-    // TODO Доделать
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getUsersCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
-        return null;
+    public List<Integer> getUsersCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+        return userService.getCommonFriends(id, otherId);
     }
 }

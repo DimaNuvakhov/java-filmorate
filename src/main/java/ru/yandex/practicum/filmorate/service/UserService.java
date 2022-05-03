@@ -6,22 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.exception.*;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserStorage userStorage;
+    private final FilmStorage filmStorage;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
-    public UserService(UserStorage userStorage) {
+    public UserService(UserStorage userStorage, FilmStorage filmStorage) {
         this.userStorage = userStorage;
+        this.filmStorage = filmStorage;
     }
 
     public void createUser(User user) {
@@ -44,6 +47,12 @@ public class UserService {
         if (user.getBirthday().isAfter(LocalDate.now())) {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new InvalidDateException("Дата рождения пользователя не может быть в будущем");
+        }
+        if (userStorage.getAllUsers().values().contains(user.getEmail())) {
+            throw new UserAlreadyExistException("Пользователь с такой электронной почтой уже добавлен в систему");
+        }
+        if (userStorage.getAllUsers().values().contains(user.getLogin())) {
+            throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
         }
         userStorage.createUser(user);
         log.info("Пользователь " + user.getLogin() + " добавлен в систему");
@@ -123,7 +132,20 @@ public class UserService {
         return userStorage.getAllUsers().get(id).getFriends();
     }
 
-//    public Collection<Integer> getCommonFriends(Integer id, Integer otherId) {
-//
-//    }
+    public List<Integer> getCommonFriends(Integer id, Integer friendId) {
+        if (!userStorage.getAllUsers().containsKey(id)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+        }
+        User user = userStorage.getUser(id);
+        if (!userStorage.getAllUsers().containsKey(friendId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
+        }
+        User friend = userStorage.getUser(friendId);
+        if (!user.getFriends().contains(friend.getId()) || !friend.getFriends().contains(user.getId())) {
+            throw new UsersNotFriendsException("Пользователи не являются друзьями");
+        }
+        return user.getFriends().stream()
+                .filter(u -> friend.getFriends().contains(u))
+                .collect(Collectors.toList());
+    }
 }
