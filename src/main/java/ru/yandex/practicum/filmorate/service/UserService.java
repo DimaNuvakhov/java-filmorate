@@ -135,20 +135,17 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getCommonFriends(Integer id, Integer friendId) {
+    public List<User> getCommonFriends(Integer id, Integer otherId) {
         if (!userStorage.getAllUsers().containsKey(id)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
         }
         User user = userStorage.getUser(id);
-        if (!userStorage.getAllUsers().containsKey(friendId)) {
-            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
+        if (!userStorage.getAllUsers().containsKey(otherId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", otherId));
         }
-        User friend = userStorage.getUser(friendId);
-        if (!user.getFriends().contains(friendId) || !friend.getFriends().contains(id)) {
-            throw new UsersNotFriendsException("Пользователи не являются друзьями");
-        }
+        User otherUser = userStorage.getUser(otherId);
         return user.getFriends().stream()
-                .filter(u -> friend.getFriends().contains(u))
+                .filter(u -> otherUser.getFriends().contains(u))
                 .map(u -> userStorage.getAllUsers().get(u))
                 .collect(Collectors.toList());
     }
