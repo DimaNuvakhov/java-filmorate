@@ -3,12 +3,12 @@ Template repository for Filmorate project.
 
 # Схема базы данных
 
-![](resources/Database scheme.png "Database scheme")
+![](resources/Database scheme2.png "Database scheme")
 
 # Пример базы данных 
 
-![](resources/Table-1.png)
+![](resources/Table.png)
 
 # Пример базы данных продолжение
 
-![](resources/Table-2.png)
+![](resources/Table2.png)
