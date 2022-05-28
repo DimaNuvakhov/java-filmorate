@@ -41,6 +41,12 @@ public class UserController extends Controller<User>{
         return user;
     }
 
+    @DeleteMapping("/{id}")
+    public Boolean removeUserById(@PathVariable Integer id) {
+        return userService.removeUserById(id);
+    }
+
+
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);

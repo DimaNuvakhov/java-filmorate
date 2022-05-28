@@ -46,22 +46,22 @@ public class UserService {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new InvalidDateException("Дата рождения пользователя не может быть в будущем");
         }
-        if (userStorage.getAllUsers().values().contains(user.getEmail())) {
-            throw new UserAlreadyExistException("Пользователь с такой электронной почтой уже добавлен в систему");
-        }
-        if (userStorage.getAllUsers().values().contains(user.getLogin())) {
-            throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
-        }
+//        if (userStorage.getAllUsers().values().contains(user.getEmail())) {
+//            throw new UserAlreadyExistException("Пользователь с такой электронной почтой уже добавлен в систему");
+//        }
+//        if (userStorage.getAllUsers().values().contains(user.getLogin())) {
+//            throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
+//        }
         userStorage.createUser(user);
         log.info("Пользователь " + user.getLogin() + " добавлен в систему");
         log.debug(user.toString());
     }
 
     public void updateUser(User user) {
-        if (user.getId() == null || !userStorage.getAllUsers().containsKey(user.getId())) {
-            log.error("Для обновления пользователя необходимо передать его корректный id");
-            throw new UserNotFoundException("Для обновления пользователя необходимо передать его корректный id");
-        }
+//        if (user.getId() == null || !userStorage.getAllUsers().containsKey(user.getId())) {
+//            log.error("Для обновления пользователя необходимо передать его корректный id");
+//            throw new UserNotFoundException("Для обновления пользователя необходимо передать его корректный id");
+//        }
         if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.error("Электронная почта не может быть пустой и должна содержать символ @");
             throw new InvalidEmailException("Электронная почта не может быть пустой и должна содержать символ @");
@@ -89,9 +89,9 @@ public class UserService {
     }
 
     public User getUserById(Integer id) {
-        if (!userStorage.getAllUsers().containsKey(id)) {
-            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
-        }
+//        if (!userStorage.getAllUsers().containsKey(id)) {
+//            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+//        }
         return userStorage.getUser(id);
     }
 
@@ -149,4 +149,9 @@ public class UserService {
                 .map(u -> userStorage.getAllUsers().get(u))
                 .collect(Collectors.toList());
     }
+
+    public Boolean removeUserById (Integer userId) {
+        return userStorage.deleteUser(userId);
+    }
+
 }
