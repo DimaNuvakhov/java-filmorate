@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -21,7 +24,7 @@ public class DbUserStorage implements UserStorage {
         idMax = idMax + 1;
         return idMax;
     }
-
+    @Autowired
     public DbUserStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -61,25 +64,23 @@ public class DbUserStorage implements UserStorage {
 
     @Override
     public User getUser(Integer userId) {
-        String sqlQuery = "select id, email, login, name,  birthday" +
-                "from users where id = ?";
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, userId);
+        SqlRowSet userRows = jdbcTemplate.queryForRowSet(
+                "select id, email, login, name, birthday from users where id = ?",
+                userId);
+        User user = new User();
+        if (userRows.next()) {
+            user.setId(userRows.getInt("id"));
+            user.setEmail(userRows.getString("email"));
+            user.setLogin(userRows.getString("login"));
+            user.setName(userRows.getString("name"));
+            LocalDate birthday = userRows.getDate("birthday").toLocalDate();
+            user.setBirthday(birthday);
+        }
+        return user;
     }
 
     @Override
     public Map<Integer, User> getAllUsers() {
         return null;
     }
-
-    private User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException {
-        LocalDate birthday = resultSet.getDate("birthday").toLocalDate();
-        User user = new User();
-        user.setId(resultSet.getInt("id"));
-        user.setEmail(resultSet.getString("email"));
-        user.setLogin(resultSet.getString("login"));
-        user.setLogin(resultSet.getString("name"));
-        user.setBirthday(birthday);
-        return user;
-    }
-
 }

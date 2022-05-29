@@ -105,9 +105,9 @@ public class FilmService {
             throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
         }
         Film film = filmStorage.getAllFilms().get(id);
-        if (!userStorage.getAllUsers().containsKey(userId)) {
-            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
-        }
+//        if (!userStorage.getAllUsers().containsKey(userId)) {
+//            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
+//        }
         film.getLikes().add(userId);
         return true;
     }
