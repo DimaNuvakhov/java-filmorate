@@ -25,8 +25,8 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public Genre createGenre(Genre genre) {
-        genre.setId(idMax);
-        String sqlQuery = "insert into rating (id, val, comm) values (?, ?, ?)";
+        genre.setId(getIdMax());
+        String sqlQuery = "insert into genre (id, val, comm) values (?, ?, ?)";
         jdbcTemplate.update(sqlQuery,
                 genre.getId(),
                 genre.getValue(),
@@ -36,7 +36,7 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public Genre updateGenre(Genre genre) {
-        String sqlQuery = "update rating set val = ?, comm = ? where id = ?";
+        String sqlQuery = "update genre set val = ?, comm = ? where id = ?";
         jdbcTemplate.update(sqlQuery,
                 genre.getValue(),
                 genre.getComment(),
@@ -46,20 +46,20 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public Boolean deleteGenre(Integer genreId) {
-        String sqlQuery = "delete from rating where id = ?";
+        String sqlQuery = "delete from genre where id = ?";
         return jdbcTemplate.update(sqlQuery, genreId) > 0;
     }
 
     @Override
     public Genre getGenre(Integer genreId) {
-        SqlRowSet ratingRows = jdbcTemplate.queryForRowSet(
+        SqlRowSet genreRows = jdbcTemplate.queryForRowSet(
                 "select id, val, comm from genre where id = ?",
                 genreId);
         Genre genre = new Genre();
-        if (ratingRows.next()) {
-            genre.setId(ratingRows.getInt("id"));
-            genre.setValue(ratingRows.getString("val"));
-            genre.setComment(ratingRows.getString("comm"));
+        if (genreRows.next()) {
+            genre.setId(genreRows.getInt("id"));
+            genre.setValue(genreRows.getString("val"));
+            genre.setComment(genreRows.getString("comm"));
         }
         return genre;
     }

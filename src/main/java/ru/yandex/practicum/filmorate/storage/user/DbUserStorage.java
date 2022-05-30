@@ -10,8 +10,10 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Primary
@@ -81,6 +83,27 @@ public class DbUserStorage implements UserStorage {
 
     @Override
     public Map<Integer, User> getAllUsers() {
-        return null;
+        Map<Integer, User> map = new HashMap<>();
+        List<User> users = makeList();
+        for (User user : users) {
+            map.put(user.getId(), user);
+        }
+        return map;
+    }
+
+    public List<User> makeList() {
+        String sql = "select * from users";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs));
+    }
+
+    private User makeUser(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setEmail(rs.getString("email"));
+        user.setLogin(rs.getString("login"));
+        user.setName(rs.getString("name"));
+        LocalDate birthday = rs.getDate("birthday").toLocalDate();
+        user.setBirthday(birthday);
+        return user;
     }
 }
