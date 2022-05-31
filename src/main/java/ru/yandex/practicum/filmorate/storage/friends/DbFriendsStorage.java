@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Friends;
 import ru.yandex.practicum.filmorate.model.Genre;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Component
 public class DbFriendsStorage implements FriendsStorage {

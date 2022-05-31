@@ -18,4 +18,6 @@ public class Film {
     @Positive
     private Integer duration;
     private Set<Integer> likes = new TreeSet<>();
+    private Integer ratingId;
+    private Rating filmRating;
 }

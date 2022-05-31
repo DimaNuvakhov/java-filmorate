@@ -59,10 +59,10 @@ public class FilmService {
     }
 
     public void updateFilm(Film film) {
-        if (film.getId() == null || !filmStorage.getAllFilms().containsKey(film.getId())) {
-            log.error("Для обновления фильма необходимо передать его корректный id");
-            throw new FilmNotFoundException("Для обновления фильма необходимо передать его корректный id");
-        }
+//        if (film.getId() == null || !filmStorage.getAllFilms().containsKey(film.getId())) {
+//            log.error("Для обновления фильма необходимо передать его корректный id");
+//            throw new FilmNotFoundException("Для обновления фильма необходимо передать его корректный id");
+//        }
         if (film.getName().isBlank()) {
             log.error("Название фильма не может быть пустым");
             throw new InvalidNameException("Название фильма не может быть пустым");
@@ -94,10 +94,10 @@ public class FilmService {
     }
 
     public Film getFilmById(Integer id) {
-        if (!filmStorage.getAllFilms().containsKey(id)) {
-            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
-        }
-        return filmStorage.getAllFilms().get(id);
+//        if (!filmStorage.getAllFilms().containsKey(id)) {
+//            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
+//        }
+        return filmStorage.getFilm(id);
     }
 
     public Boolean likeMovie(Integer id, Integer userId) {

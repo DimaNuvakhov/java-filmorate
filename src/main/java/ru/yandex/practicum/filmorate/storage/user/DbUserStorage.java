@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.model.Friends;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
@@ -77,6 +78,7 @@ public class DbUserStorage implements UserStorage {
             user.setName(userRows.getString("name"));
             LocalDate birthday = userRows.getDate("birthday").toLocalDate();
             user.setBirthday(birthday);
+            user.setMyFriends(makeMapFriends(user.getId()));
         }
         return user;
     }
@@ -91,7 +93,30 @@ public class DbUserStorage implements UserStorage {
         return map;
     }
 
-    public List<User> makeList() {
+    private  Map<Integer, Friends> makeMapFriends(Integer userId) {
+        Map<Integer, Friends> friends = new HashMap<>();
+        List<Friends> friendsList = makeFriendsList(userId);
+        for (Friends friend : friendsList) {
+            friends.put(friend.getId(), friend);
+        }
+        return friends;
+    }
+
+    private  List<Friends> makeFriendsList(Integer userId) {
+        String sql = "select * from friends where user_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeIdFriend(rs), userId);
+    }
+
+    private  Friends makeIdFriend(ResultSet rs) throws SQLException {
+        Friends friend = new Friends();
+        friend.setId(rs.getInt("id"));
+        friend.setUserId(rs.getInt("user_id"));
+        friend.setFriendId(rs.getInt("friend_id"));
+        friend.setIsAccepted(rs.getBoolean("is_accepted"));
+        return friend;
+    }
+
+    private List<User> makeList() {
         String sql = "select * from users";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs));
     }
