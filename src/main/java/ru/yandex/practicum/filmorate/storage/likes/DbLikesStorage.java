@@ -71,25 +71,6 @@ public class DbLikesStorage implements LikesStorage {
         return like;
     }
 
-    private Rating findFilmById(Integer likeId) {
-        SqlRowSet filmRows = jdbcTemplate.queryForRowSet(
-                "select * from films where id = ?",
-                likeId);
-        Film film = new Film();
-        if (filmRows.next()) {
-            film.setId(filmRows.getInt("id"));
-            film.setName(filmRows.getString("name"));
-            film.setDescription(filmRows.getString("description"));
-            LocalDate releaseDate = filmRows.getDate("releaseDate").toLocalDate();
-            film.setReleaseDate(releaseDate);
-            film.setDuration(filmRows.getInt("duration"));
-            film.setRatingId(filmRows.getInt("rating_id"));
-//            film.setFilmRating(findRatingById(film.getRatingId()));
-            // TODO доделать
-        }
-        return null;
-    }
-
     @Override
     public Map<Integer, Likes> getAllLikes() {
         return null;

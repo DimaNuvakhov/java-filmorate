@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Friends;
+import ru.yandex.practicum.filmorate.model.Likes;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
@@ -27,6 +29,7 @@ public class DbUserStorage implements UserStorage {
         idMax = idMax + 1;
         return idMax;
     }
+
     @Autowired
     public DbUserStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -79,6 +82,7 @@ public class DbUserStorage implements UserStorage {
             LocalDate birthday = userRows.getDate("birthday").toLocalDate();
             user.setBirthday(birthday);
             user.setMyFriends(makeMapFriends(user.getId()));
+            user.setFavoriteFilms(makeMapFavoriteFilms(user.getId()));
         }
         return user;
     }
@@ -93,7 +97,7 @@ public class DbUserStorage implements UserStorage {
         return map;
     }
 
-    private  Map<Integer, Friends> makeMapFriends(Integer userId) {
+    private Map<Integer, Friends> makeMapFriends(Integer userId) {
         Map<Integer, Friends> friends = new HashMap<>();
         List<Friends> friendsList = makeFriendsList(userId);
         for (Friends friend : friendsList) {
@@ -102,12 +106,12 @@ public class DbUserStorage implements UserStorage {
         return friends;
     }
 
-    private  List<Friends> makeFriendsList(Integer userId) {
+    private List<Friends> makeFriendsList(Integer userId) {
         String sql = "select * from friends where user_id = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeIdFriend(rs), userId);
     }
 
-    private  Friends makeIdFriend(ResultSet rs) throws SQLException {
+    private Friends makeIdFriend(ResultSet rs) throws SQLException {
         Friends friend = new Friends();
         friend.setId(rs.getInt("id"));
         friend.setUserId(rs.getInt("user_id"));
@@ -129,6 +133,32 @@ public class DbUserStorage implements UserStorage {
         user.setName(rs.getString("name"));
         LocalDate birthday = rs.getDate("birthday").toLocalDate();
         user.setBirthday(birthday);
+        user.setFavoriteFilms(makeMapFavoriteFilms(user.getId()));
         return user;
     }
+
+    private Map<Integer, Likes> makeMapFavoriteFilms(Integer userId) {
+        Map<Integer, Likes> favoriteFilmsMap = new HashMap<>();
+        List<Likes> favoriteFilmsList = makeLikesList(userId);
+        for (Likes like : favoriteFilmsList) {
+            favoriteFilmsMap.put(like.getId(), like);
+        }
+        return favoriteFilmsMap;
+    }
+
+    private List<Likes> makeLikesList(Integer userId) {
+        String sql = "select * from likes where user_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeLike(rs), userId);
+    }
+
+    private Likes makeLike(ResultSet rs) throws SQLException {
+        Likes like = new Likes();
+        like.setId(rs.getInt("id"));
+        like.setFilmId(rs.getInt("film_id"));
+        like.setUserId(rs.getInt("user_id"));
+        return like;
+    }
 }
+
+
+

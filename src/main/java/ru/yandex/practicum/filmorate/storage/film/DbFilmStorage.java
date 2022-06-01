@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Friends;
-import ru.yandex.practicum.filmorate.model.Rating;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,6 +83,7 @@ public class DbFilmStorage implements FilmStorage {
             film.setDuration(filmRows.getInt("duration"));
             film.setRatingId(filmRows.getInt("rating_id"));
             film.setFilmRating(findRatingById(film.getRatingId()));
+            film.setFilmLikes(getFilmLikes(film.getId()));
         }
         return film;
     }
@@ -128,6 +126,30 @@ public class DbFilmStorage implements FilmStorage {
         film.setDuration(rs.getInt("duration"));
         film.setRatingId(rs.getInt("rating_id"));
         film.setFilmRating(findRatingById(film.getId()));
+        film.setFilmLikes(getFilmLikes(film.getId()));
         return film;
     }
+
+    private Map<Integer, Likes> getFilmLikes(Integer filmId) {
+        Map<Integer, Likes> filmLikesMap = new HashMap<>();
+        List<Likes> filmLikesList = makeLikesList(filmId);
+        for (Likes like : filmLikesList) {
+            filmLikesMap.put(like.getId(), like);
+        }
+        return filmLikesMap;
+    }
+
+    private List<Likes> makeLikesList(Integer filmId) {
+        String sql = "select * from likes where film_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeLike(rs), filmId);
+    }
+
+    private Likes makeLike(ResultSet rs) throws SQLException {
+        Likes like = new Likes();
+        like.setId(rs.getInt("id"));
+        like.setFilmId(rs.getInt("film_id"));
+        like.setUserId(rs.getInt("user_id"));
+        return like;
+    }
+
 }

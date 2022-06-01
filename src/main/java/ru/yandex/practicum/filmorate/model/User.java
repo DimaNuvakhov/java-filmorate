@@ -21,4 +21,5 @@ public class User {
     private LocalDate birthday;
     private Set<Integer> friends = new TreeSet<>();
     private Map<Integer, Friends> myFriends = new HashMap<>();
+    private Map<Integer, Likes> favoriteFilms = new HashMap<>();
 }
