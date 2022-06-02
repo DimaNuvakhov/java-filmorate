@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Likes;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.likes.LikesStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
@@ -19,12 +21,14 @@ import java.util.stream.Collectors;
 public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+    private final LikesStorage likesStorage;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
-    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage, LikesStorage likesStorage) {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
+        this.likesStorage = likesStorage;
     }
 
     public Film createFilm(Film film) {
@@ -59,10 +63,10 @@ public class FilmService {
     }
 
     public void updateFilm(Film film) {
-//        if (film.getId() == null || !filmStorage.getAllFilms().containsKey(film.getId())) {
-//            log.error("Для обновления фильма необходимо передать его корректный id");
-//            throw new FilmNotFoundException("Для обновления фильма необходимо передать его корректный id");
-//        }
+        if (film.getId() == null || !filmStorage.getAllFilms().containsKey(film.getId())) {
+            log.error("Для обновления фильма необходимо передать его корректный id");
+            throw new FilmNotFoundException("Для обновления фильма необходимо передать его корректный id");
+        }
         if (film.getName().isBlank()) {
             log.error("Название фильма не может быть пустым");
             throw new InvalidNameException("Название фильма не может быть пустым");
@@ -94,9 +98,9 @@ public class FilmService {
     }
 
     public Film getFilmById(Integer id) {
-//        if (!filmStorage.getAllFilms().containsKey(id)) {
-//            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
-//        }
+        if (!filmStorage.getAllFilms().containsKey(id)) {
+            throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
+        }
         return filmStorage.getFilm(id);
     }
 
@@ -104,11 +108,13 @@ public class FilmService {
         if (!filmStorage.getAllFilms().containsKey(id)) {
             throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
         }
-        Film film = filmStorage.getAllFilms().get(id);
-//        if (!userStorage.getAllUsers().containsKey(userId)) {
-//            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
-//        }
-        film.getLikes().add(userId);
+        if (!userStorage.getAllUsers().containsKey(userId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
+        }
+        Likes like = new Likes();
+        like.setFilmId(id);
+        like.setUserId(userId);
+        likesStorage.createLike(like);
         return true;
     }
 
@@ -116,17 +122,13 @@ public class FilmService {
         if (!filmStorage.getAllFilms().containsKey(id)) {
             throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
         }
-        Film film = filmStorage.getAllFilms().get(id);
-        if (!film.getLikes().contains(userId)) {
-            throw new UsersNotFriendsException(String.format("Пользователь с id %d не поставил лайк фильму", userId));
-        }
-        film.getLikes().remove(userId);
+        likesStorage.deleteLike(id, userId);
         return true;
     }
 
     public List<Film> getTopRatedMovies(Integer count) {
         return filmStorage.getAllFilms().values().stream()
-                .sorted((f1,f2) -> f2.getLikes().size() - f1.getLikes().size())
+                .sorted((f1,f2) -> f2.getFilmLikes().size() - f1.getFilmLikes().size())
                 .limit(count)
                 .collect(Collectors.toList());
     }

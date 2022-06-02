@@ -52,7 +52,17 @@ public class DbLikesStorage implements LikesStorage {
     }
 
     @Override
-    public Boolean deleteLike(Integer likeId) {
+    public Boolean deleteLike(Integer id, Integer userId) {
+        Integer removedLikeId = 0;
+        SqlRowSet rows = jdbcTemplate.queryForRowSet("select id from likes where film_id = ? " +
+                "and user_id = ?", id, userId);
+        if (rows.next()) {
+            removedLikeId = rows.getInt("id");
+        }
+        return removeLikeById(removedLikeId);
+    }
+
+    private Boolean removeLikeById(Integer likeId) {
         String sqlQuery = "delete from likes where id = ?";
         return jdbcTemplate.update(sqlQuery, likeId) > 0;
     }
@@ -71,8 +81,5 @@ public class DbLikesStorage implements LikesStorage {
         return like;
     }
 
-    @Override
-    public Map<Integer, Likes> getAllLikes() {
-        return null;
-    }
+
 }

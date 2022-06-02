@@ -10,9 +10,8 @@ public interface LikesStorage {
 
     Likes updateLike(Likes likes);
 
-    Boolean deleteLike(Integer likeId);
+    Boolean deleteLike(Integer Id, Integer userId);
 
     Likes getLike(Integer likeId);
 
-    Map<Integer, Likes> getAllLikes();
 }

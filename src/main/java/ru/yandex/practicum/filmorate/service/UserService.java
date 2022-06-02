@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.exception.*;
+import ru.yandex.practicum.filmorate.model.Friends;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.friends.FriendsStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserStorage userStorage;
+    private final FriendsStorage friendsStorage;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
-    public UserService(UserStorage userStorage) {
+    public UserService(UserStorage userStorage, FriendsStorage friendsStorage) {
         this.userStorage = userStorage;
+        this.friendsStorage = friendsStorage;
     }
 
     public void createUser(User user) {
@@ -46,22 +49,22 @@ public class UserService {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new InvalidDateException("Дата рождения пользователя не может быть в будущем");
         }
-//        if (userStorage.getAllUsers().values().contains(user.getEmail())) {
-//            throw new UserAlreadyExistException("Пользователь с такой электронной почтой уже добавлен в систему");
-//        }
-//        if (userStorage.getAllUsers().values().contains(user.getLogin())) {
-//            throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
-//        }
+        if (userStorage.getAllUsers().values().contains(user.getEmail())) {
+            throw new UserAlreadyExistException("Пользователь с такой электронной почтой уже добавлен в систему");
+        }
+        if (userStorage.getAllUsers().values().contains(user.getLogin())) {
+            throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
+        }
         userStorage.createUser(user);
         log.info("Пользователь " + user.getLogin() + " добавлен в систему");
         log.debug(user.toString());
     }
 
     public void updateUser(User user) {
-//        if (user.getId() == null || !userStorage.getAllUsers().containsKey(user.getId())) {
-//            log.error("Для обновления пользователя необходимо передать его корректный id");
-//            throw new UserNotFoundException("Для обновления пользователя необходимо передать его корректный id");
-//        }
+        if (user.getId() == null || !userStorage.getAllUsers().containsKey(user.getId())) {
+            log.error("Для обновления пользователя необходимо передать его корректный id");
+            throw new UserNotFoundException("Для обновления пользователя необходимо передать его корректный id");
+        }
         if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.error("Электронная почта не может быть пустой и должна содержать символ @");
             throw new InvalidEmailException("Электронная почта не может быть пустой и должна содержать символ @");
@@ -89,9 +92,9 @@ public class UserService {
     }
 
     public User getUserById(Integer id) {
-//        if (!userStorage.getAllUsers().containsKey(id)) {
-//            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
-//        }
+        if (!userStorage.getAllUsers().containsKey(id)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
+        }
         return userStorage.getUser(id);
     }
 
@@ -99,16 +102,17 @@ public class UserService {
         if (!userStorage.getAllUsers().containsKey(id)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
         }
-        User user = userStorage.getUser(id);
         if (!userStorage.getAllUsers().containsKey(friendId)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
         }
-        User newFriend = userStorage.getUser(friendId);
         if (id.equals(friendId)) {
             throw new IllegalAddAsFriendException("Пользователь не может добавть в друзья сам себя");
         }
-        user.getFriends().add(friendId);
-        newFriend.getFriends().add(id);
+        Friends friend = new Friends();
+        friend.setUserId(id);
+        friend.setFriendId(friendId);
+        friend.setIsAccepted(true);
+        friendsStorage.createFriend(friend);
         return true;
     }
 
@@ -116,38 +120,21 @@ public class UserService {
         if (!userStorage.getAllUsers().containsKey(id)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
         }
-        User user = userStorage.getUser(id);
         if (!userStorage.getAllUsers().containsKey(friendId)) {
             throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", friendId));
         }
-        User removedFriend = userStorage.getUser(friendId);
-        if (!user.getFriends().contains(friendId) || !removedFriend.getFriends().contains(id)) {
-            throw new UsersNotFriendsException("Пользователи не являются друзьями");
-        }
-        user.getFriends().remove(friendId);
-        removedFriend.getFriends().remove(id);
+        friendsStorage.removeFromFriends(id, friendId);
         return true;
     }
 
     public List<User> getUserFriends(Integer id) {
-        return userStorage.getAllUsers().get(id).getFriends().stream()
-                .map(u -> userStorage.getAllUsers().get(u))
+        return userStorage.getAllUsers().get(id).getMyFriends().values().stream()
+                .map(u -> userStorage.getAllUsers().get(u.getFriendId()))
                 .collect(Collectors.toList());
     }
 
     public List<User> getCommonFriends(Integer id, Integer otherId) {
-        if (!userStorage.getAllUsers().containsKey(id)) {
-            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", id));
-        }
-        User user = userStorage.getUser(id);
-        if (!userStorage.getAllUsers().containsKey(otherId)) {
-            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", otherId));
-        }
-        User otherUser = userStorage.getUser(otherId);
-        return user.getFriends().stream()
-                .filter(u -> otherUser.getFriends().contains(u))
-                .map(u -> userStorage.getAllUsers().get(u))
-                .collect(Collectors.toList());
+        return friendsStorage.getCommonFriends(id, otherId);
     }
 
     public Boolean removeUserById (Integer userId) {

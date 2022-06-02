@@ -27,10 +27,10 @@ public class LikesController {
         return likesService.updateLike(like);
     }
 
-    @DeleteMapping("/{id}")
-    public Boolean removeLikeById(@PathVariable Integer id) {
-        return likesService.removeFriendById(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public Boolean removeLikeById(@PathVariable Integer id) {
+//        return likesService.removeFriendById(id);
+//    }
 
     @GetMapping("/{id}")
     public Likes getLikeById (@PathVariable Integer id) {

@@ -46,7 +46,6 @@ public class UserController extends Controller<User>{
         return userService.removeUserById(id);
     }
 
-
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
@@ -69,6 +68,7 @@ public class UserController extends Controller<User>{
 
     @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getUsersCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+        List<User> list = userService.getCommonFriends(id, otherId);
         return userService.getCommonFriends(id, otherId);
     }
 }

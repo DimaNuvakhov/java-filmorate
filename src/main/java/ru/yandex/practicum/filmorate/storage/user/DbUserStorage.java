@@ -51,8 +51,8 @@ public class DbUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        String sqlQuery = "update users set " + "email = ?, login = ?, " +
-                "name = ?, birthday = ? " + "where id = ?";
+        String sqlQuery = "update users set email = ?, login = ?, " +
+                "name = ?, birthday = ? where id = ?";
         jdbcTemplate.update(sqlQuery,
                 user.getEmail(),
                 user.getLogin(),
@@ -133,6 +133,7 @@ public class DbUserStorage implements UserStorage {
         user.setName(rs.getString("name"));
         LocalDate birthday = rs.getDate("birthday").toLocalDate();
         user.setBirthday(birthday);
+        user.setMyFriends(makeMapFriends(user.getId()));
         user.setFavoriteFilms(makeMapFavoriteFilms(user.getId()));
         return user;
     }
@@ -158,6 +159,9 @@ public class DbUserStorage implements UserStorage {
         like.setUserId(rs.getInt("user_id"));
         return like;
     }
+
+
+
 }
 
 

@@ -25,8 +25,8 @@ public class LikesService {
         return likesStorage.getLike(likeId);
     }
 
-    public Boolean removeFriendById(Integer likeId) {
-        return likesStorage.deleteLike(likeId);
+    public Boolean removeFriendById(Integer Id, Integer userId) {
+        return likesStorage.deleteLike(Id, userId);
     }
 
 }
