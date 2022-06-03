@@ -56,6 +56,9 @@ public class FilmService {
             log.error("Продолжительность фильма не может быть отрицательной");
             throw new InvalidDurationException("Продолжительность фильма не может быть отрицательной");
         }
+        if (film.getMpa() == null) {
+            throw new InvalidDateException("Рейтинг должен быть заполнен"); // TODO Сделать нормальный эксепшн
+        }
         filmStorage.createFilm(film);
         log.info("Фильм " + film.getName() + " добавлен в систему");
         log.debug(film.toString());

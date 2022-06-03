@@ -82,7 +82,7 @@ public class DbFilmStorage implements FilmStorage {
             film.setReleaseDate(releaseDate);
             film.setDuration(filmRows.getInt("duration"));
             film.setRatingId(filmRows.getInt("rating_id"));
-            film.setFilmRating(findRatingById(film.getRatingId()));
+            film.setMpa(findRatingById(film.getRatingId()));
             film.setFilmLikes(getFilmLikes(film.getId()));
         }
         return film;
@@ -125,7 +125,7 @@ public class DbFilmStorage implements FilmStorage {
         film.setReleaseDate(releaseDate);
         film.setDuration(rs.getInt("duration"));
         film.setRatingId(rs.getInt("rating_id"));
-        film.setFilmRating(findRatingById(film.getId()));
+        film.setMpa(findRatingById(film.getId()));
         film.setFilmLikes(getFilmLikes(film.getId()));
         return film;
     }

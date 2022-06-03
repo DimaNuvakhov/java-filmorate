@@ -5,10 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Data
 public class Film {
@@ -22,5 +19,6 @@ public class Film {
     private Set<Integer> likes = new TreeSet<>();
     private Map<Integer, Likes> filmLikes= new HashMap<>();
     private Integer ratingId;
-    private Rating filmRating;
+    private Rating mpa;
+    private Map<Integer, Genres> genres = new HashMap<>();
 }

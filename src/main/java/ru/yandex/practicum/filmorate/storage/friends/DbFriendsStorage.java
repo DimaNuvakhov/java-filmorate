@@ -100,7 +100,7 @@ public class DbFriendsStorage implements FriendsStorage {
         if (rows.next()) {
             removedFriendId = rows.getInt("id");
         }
-        userStorage.deleteUser(removedFriendId);
+        deleteFriend(removedFriendId);
         return true;
     }
 
