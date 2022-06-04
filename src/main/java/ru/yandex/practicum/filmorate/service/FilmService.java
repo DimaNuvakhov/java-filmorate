@@ -59,13 +59,10 @@ public class FilmService {
         if (film.getMpa() == null) {
             throw new InvalidDateException("Рейтинг должен быть заполнен"); // TODO Сделать нормальный эксепшн
         }
-        filmStorage.createFilm(film);
-        log.info("Фильм " + film.getName() + " добавлен в систему");
-        log.debug(film.toString());
-        return film;
+        return filmStorage.createFilm(film);
     }
 
-    public void updateFilm(Film film) {
+    public Film updateFilm(Film film) {
         if (film.getId() == null || !filmStorage.getAllFilms().containsKey(film.getId())) {
             log.error("Для обновления фильма необходимо передать его корректный id");
             throw new FilmNotFoundException("Для обновления фильма необходимо передать его корректный id");
@@ -90,9 +87,9 @@ public class FilmService {
             log.error("Продолжительность фильма не может быть отрицательной");
             throw new InvalidDurationException("Продолжительность фильма не может быть отрицательной");
         }
-        filmStorage.updateFilm(film);
-        log.info("Фильм под id = " + film.getId() + " обновлен в системе");
-        log.debug(film.toString());
+
+        Film newFilm = filmStorage.updateFilm(film);
+        return newFilm;
     }
 
     public Collection<Film> getAllFilms() {
@@ -125,13 +122,16 @@ public class FilmService {
         if (!filmStorage.getAllFilms().containsKey(id)) {
             throw new FilmNotFoundException(String.format("Фильм с id %d не добавлен в систему", id));
         }
+        if (!userStorage.getAllUsers().containsKey(userId)) {
+            throw new UserNotFoundException(String.format("Пользователь с id %d не добавлен в систему", userId));
+        }
         likesStorage.deleteLike(id, userId);
         return true;
     }
 
     public List<Film> getTopRatedMovies(Integer count) {
         return filmStorage.getAllFilms().values().stream()
-                .sorted((f1,f2) -> f2.getFilmLikes().size() - f1.getFilmLikes().size())
+                .sorted((f1, f2) -> f2.getFilmLikes().size() - f1.getFilmLikes().size())
                 .limit(count)
                 .collect(Collectors.toList());
     }

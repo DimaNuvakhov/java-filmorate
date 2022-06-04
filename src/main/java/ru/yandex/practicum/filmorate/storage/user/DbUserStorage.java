@@ -159,9 +159,6 @@ public class DbUserStorage implements UserStorage {
         like.setUserId(rs.getInt("user_id"));
         return like;
     }
-
-
-
 }
 
 

@@ -37,8 +37,7 @@ public class FilmController extends Controller<Film> {
     @PutMapping
     @Override
     public Film update(@RequestBody Film film) {
-        filmService.updateFilm(film);
-        return film;
+        return filmService.updateFilm(film);
     }
 
     @GetMapping("/{id}")

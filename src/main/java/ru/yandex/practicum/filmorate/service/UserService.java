@@ -28,7 +28,7 @@ public class UserService {
         this.friendsStorage = friendsStorage;
     }
 
-    public void createUser(User user) {
+    public User createUser(User user) {
         if (user.getId() != null) {
             log.error("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
             throw new UserNotFoundException("Пользователь еще не добавлен в базу данных, вы не можете передавать id");
@@ -55,12 +55,10 @@ public class UserService {
         if (userStorage.getAllUsers().values().contains(user.getLogin())) {
             throw new UserAlreadyExistException("Пользователь с таким логином уже добавлен в систему");
         }
-        userStorage.createUser(user);
-        log.info("Пользователь " + user.getLogin() + " добавлен в систему");
-        log.debug(user.toString());
+        return userStorage.createUser(user);
     }
 
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         if (user.getId() == null || !userStorage.getAllUsers().containsKey(user.getId())) {
             log.error("Для обновления пользователя необходимо передать его корректный id");
             throw new UserNotFoundException("Для обновления пользователя необходимо передать его корректный id");
@@ -81,9 +79,7 @@ public class UserService {
             log.error("Дата рождения пользователя не может быть в будущем");
             throw new InvalidDateException("Дата рождения пользователя не может быть в будущем");
         }
-        userStorage.updateUser(user);
-        log.info("Пользователь под id = " + user.getId() + " обновлен в системе");
-        log.debug(user.toString());
+        return userStorage.updateUser(user);
     }
 
     public Collection<User> getAllUsers() {

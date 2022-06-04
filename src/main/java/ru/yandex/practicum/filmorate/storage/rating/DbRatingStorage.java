@@ -68,9 +68,4 @@ public class DbRatingStorage implements RatingStorage {
         }
         return rating;
     }
-
-    @Override
-    public Map<Integer, Rating> getAllRatings() {
-        return null;
-    }
 }

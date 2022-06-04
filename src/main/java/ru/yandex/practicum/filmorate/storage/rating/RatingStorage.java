@@ -13,6 +13,4 @@ public interface RatingStorage {
     Boolean deleteRating(Integer ratingId);
 
     Rating getRating(Integer ratingId);
-
-    Map<Integer, Rating> getAllRatings();
 }

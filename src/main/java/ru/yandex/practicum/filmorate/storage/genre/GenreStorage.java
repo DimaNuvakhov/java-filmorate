@@ -13,6 +13,4 @@ public interface GenreStorage {
     Boolean deleteGenre(Integer genreId);
 
     Genre getGenre(Integer genreId);
-
-    Map<Integer, Genre> getAllGenres();
 }

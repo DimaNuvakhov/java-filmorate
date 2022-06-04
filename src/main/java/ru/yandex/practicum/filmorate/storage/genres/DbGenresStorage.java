@@ -65,9 +65,4 @@ public class DbGenresStorage implements GenresStorage {
         }
         return genres;
     }
-
-    @Override
-    public Map<Integer, Genres> getAll() {
-        return null;
-    }
 }
