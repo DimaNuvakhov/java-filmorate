@@ -17,8 +17,6 @@ public interface FriendsStorage {
 
     Friends getFriend(Integer friendId);
 
-    Map<Integer, Friends> getAllFriends();
-
     List<User> getCommonFriends(Integer id, Integer otherId);
 
     Boolean removeFromFriends(Integer id, Integer friendId);

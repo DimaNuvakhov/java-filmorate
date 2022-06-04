@@ -133,7 +133,7 @@ public class UserService {
         return friendsStorage.getCommonFriends(id, otherId);
     }
 
-    public Boolean removeUserById (Integer userId) {
+    public Boolean removeUserById(Integer userId) {
         return userStorage.deleteUser(userId);
     }
 }

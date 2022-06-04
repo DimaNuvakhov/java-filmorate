@@ -93,8 +93,8 @@ public class DbFilmStorage implements FilmStorage {
 
     private Rating findRatingById(Integer ratingId) {
         SqlRowSet ratingRows = jdbcTemplate.queryForRowSet(
-            "select * from rating where id = ?",
-            ratingId);
+                "select * from rating where id = ?",
+                ratingId);
         Rating rating = new Rating();
         if (ratingRows.next()) {
             rating.setId(ratingRows.getInt("id"));

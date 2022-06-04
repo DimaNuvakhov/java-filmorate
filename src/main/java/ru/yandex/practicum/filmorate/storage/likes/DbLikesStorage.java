@@ -82,5 +82,4 @@ public class DbLikesStorage implements LikesStorage {
     }
 
 
-
 }

@@ -88,8 +88,7 @@ public class FilmService {
             throw new InvalidDurationException("Продолжительность фильма не может быть отрицательной");
         }
 
-        Film newFilm = filmStorage.updateFilm(film);
-        return newFilm;
+        return filmStorage.updateFilm(film);
     }
 
     public Collection<Film> getAllFilms() {

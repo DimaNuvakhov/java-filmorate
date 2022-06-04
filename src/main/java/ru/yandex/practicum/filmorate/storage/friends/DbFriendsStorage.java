@@ -76,11 +76,6 @@ public class DbFriendsStorage implements FriendsStorage {
     }
 
     @Override
-    public Map<Integer, Friends> getAllFriends() {
-        return null;
-    }
-
-    @Override
     public List<User> getCommonFriends(Integer id, Integer otherId) {
         String sql = "select friend_id from friends where user_id = ? and friend_id " +
                 "in (select friend_id from friends where user_id = ?)";

@@ -18,21 +18,21 @@ public class RatingController {
 
     @PostMapping
     public Rating create(@RequestBody Rating rating) {
-       return ratingService.createRating(rating);
+        return ratingService.createRating(rating);
     }
 
     @PutMapping
     public Rating update(@RequestBody Rating rating) {
-        return  ratingService.updateRating(rating);
+        return ratingService.updateRating(rating);
     }
 
     @DeleteMapping("/{id}")
-    public Boolean removeRatingById (@PathVariable Integer id) {
+    public Boolean removeRatingById(@PathVariable Integer id) {
         return ratingService.removeRatingById(id);
     }
 
     @GetMapping("/{id}")
     public Rating getRatingById(@PathVariable Integer id) {
-        return  ratingService.getRatingById(id);
+        return ratingService.getRatingById(id);
     }
 }

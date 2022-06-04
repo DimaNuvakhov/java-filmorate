@@ -33,7 +33,7 @@ public class FriendsController {
     }
 
     @GetMapping("/{id}")
-    public Friends getFriendById (@PathVariable Integer id) {
+    public Friends getFriendById(@PathVariable Integer id) {
         return friendsService.getFriendById(id);
     }
 }

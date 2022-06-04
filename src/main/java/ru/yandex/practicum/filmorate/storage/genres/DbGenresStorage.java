@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Genres;
 
 import java.util.Map;
+
 @Component
 public class DbGenresStorage implements GenresStorage {
 

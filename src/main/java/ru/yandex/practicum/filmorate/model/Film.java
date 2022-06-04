@@ -16,7 +16,7 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private Integer duration;
-    private Map<Integer, Likes> filmLikes= new HashMap<>();
+    private Map<Integer, Likes> filmLikes = new HashMap<>();
     private Integer ratingId;
     private Rating mpa;
     private Map<Integer, Genres> genres = new HashMap<>();

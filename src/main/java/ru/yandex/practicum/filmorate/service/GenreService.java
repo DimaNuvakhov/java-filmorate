@@ -15,15 +15,15 @@ public class GenreService {
         this.genreStorage = genreStorage;
     }
 
-    public Genre createGenre (Genre genre) {
+    public Genre createGenre(Genre genre) {
         return genreStorage.createGenre(genre);
     }
 
-    public Genre updateGenre (Genre genre) {
+    public Genre updateGenre(Genre genre) {
         return genreStorage.updateGenre(genre);
     }
 
-    public Genre getGenreById (Integer genreId) {
+    public Genre getGenreById(Integer genreId) {
         return genreStorage.getGenre(genreId);
     }
 

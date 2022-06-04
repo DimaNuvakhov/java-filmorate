@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.model.*;
 import ru.yandex.practicum.filmorate.storage.film.DbFilmStorage;
+import ru.yandex.practicum.filmorate.storage.friends.DbFriendsStorage;
 import ru.yandex.practicum.filmorate.storage.genre.DbGenreStorage;
 import ru.yandex.practicum.filmorate.storage.genres.DbGenresStorage;
 import ru.yandex.practicum.filmorate.storage.likes.DbLikesStorage;
@@ -16,8 +17,7 @@ import ru.yandex.practicum.filmorate.storage.user.DbUserStorage;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -31,6 +31,7 @@ class FilmorateApplicationTests {
     private final DbGenresStorage dbGenresStorage;
     private final DbGenreStorage dbGenreStorage;
     private final DbFilmStorage dbFilmStorage;
+    private final DbFriendsStorage dbFriendsStorage;
 
     @Test
     public void createUserTest() {
@@ -57,9 +58,9 @@ class FilmorateApplicationTests {
         firstUser.setName("Nick Name");
         LocalDate firstUserBirthday = LocalDate.parse("1946-08-20");
         firstUser.setBirthday(firstUserBirthday);
-        dbUserStorage.createUser(firstUser);
+        User createdUser = dbUserStorage.createUser(firstUser);
         User secondUser = new User();
-        secondUser.setId(1);
+        secondUser.setId(createdUser.getId());
         secondUser.setEmail("mail@yandex.ru");
         secondUser.setLogin("doloreUpdate");
         secondUser.setName("est adipisicing");
@@ -93,7 +94,7 @@ class FilmorateApplicationTests {
         firstUser.setName("Nick Name");
         LocalDate firstUserBirthday = LocalDate.parse("1946-08-20");
         firstUser.setBirthday(firstUserBirthday);
-        dbUserStorage.createUser(firstUser);
+        User firstCreatedFilm = dbUserStorage.createUser(firstUser);
         User secondUser = new User();
         secondUser.setId(1);
         secondUser.setEmail("mail@yandex.ru");
@@ -101,14 +102,14 @@ class FilmorateApplicationTests {
         secondUser.setName("est adipisicing");
         LocalDate birthday = LocalDate.parse("1976-09-20");
         secondUser.setBirthday(birthday);
-        dbUserStorage.createUser(secondUser);
+        User secondCreatedFilm = dbUserStorage.createUser(secondUser);
         for (User user : dbUserStorage.getAllUsers().values()) {
-            if (user.getId().equals(firstUser.getId())) {
+            if (user.getId().equals(firstCreatedFilm.getId())) {
                 assertEquals("mail@mail.ru", user.getEmail());
                 assertEquals("dolore", user.getLogin());
                 assertEquals("Nick Name", user.getName());
                 assertEquals(firstUserBirthday, user.getBirthday());
-            } else if (user.getId().equals(secondUser.getId())) {
+            } else if (user.getId().equals(secondCreatedFilm.getId())) {
                 assertEquals("mail@yandex.ru", user.getEmail());
                 assertEquals("doloreUpdate", user.getLogin());
                 assertEquals("est adipisicing", user.getName());
@@ -133,9 +134,9 @@ class FilmorateApplicationTests {
         Rating firstRating = new Rating();
         firstRating.setValue("G");
         firstRating.setComment("У фильма нет возрастных ограничений");
-        dbRatingStorage.createRating(firstRating);
+        Rating createdRating = dbRatingStorage.createRating(firstRating);
         Rating secondRating = new Rating();
-        secondRating.setId(1);
+        secondRating.setId(createdRating.getId());
         secondRating.setValue("PG");
         secondRating.setComment("Детям рекомендуется смотреть фильм с родителями");
         Rating updatedRating = dbRatingStorage.updateRating(secondRating);
@@ -169,9 +170,9 @@ class FilmorateApplicationTests {
         Likes firstLike = new Likes();
         firstLike.setFilmId(1);
         firstLike.setUserId(2);
-        dbLikesStorage.createLike(firstLike);
+        Likes createdLike = dbLikesStorage.createLike(firstLike);
         Likes secondLike = new Likes();
-        secondLike.setId(1);
+        secondLike.setId(createdLike.getId());
         secondLike.setFilmId(3);
         secondLike.setUserId(4);
         Likes updatedLike = dbLikesStorage.updateLike(secondLike);
@@ -205,9 +206,9 @@ class FilmorateApplicationTests {
         Genres firstGenre = new Genres();
         firstGenre.setFilmId(1);
         firstGenre.setGenreId(1);
-        dbGenresStorage.createGenres(firstGenre);
+        Genres createdGenre = dbGenresStorage.createGenres(firstGenre);
         Genres secondGenre = new Genres();
-        secondGenre.setId(1);
+        secondGenre.setId(createdGenre.getId());
         secondGenre.setFilmId(2);
         secondGenre.setGenreId(3);
         Genres updatedGenre = dbGenresStorage.updateGenres(secondGenre);
@@ -261,19 +262,143 @@ class FilmorateApplicationTests {
         assertTrue(dbGenreStorage.deleteGenre(createdGenre.getId()));
     }
 
-//    @Test
-//    public void createFilmTest() {
-//        Film film = new Film();
-//        film.setName("labore nulla");
-//        LocalDate releaseDate = LocalDate.parse("1979-04-17");
-//        film.setReleaseDate(releaseDate);
-//        film.setDescription("Duis in consequat esse");
-//        film.setDuration(100);
-//        Film createdFilm = dbFilmStorage.createFilm(film);
-//        Film getFilm = dbFilmStorage.getFilm(createdFilm.getId());
-//        assertEquals("labore nulla", getFilm.getName());
-//        assertEquals(releaseDate, getFilm.getReleaseDate());
-//        assertEquals("Duis in consequat esse", getFilm.getDescription());
-//        assertEquals(100, getFilm.getDuration());
-//    }
+    @Test
+    public void createFriendTest() {
+        Friends friends = new Friends();
+        friends.setUserId(1);
+        friends.setFriendId(2);
+        friends.setIsAccepted(false);
+        Friends createdFriends = dbFriendsStorage.createFriend(friends);
+        Friends getFriend = dbFriendsStorage.getFriend(createdFriends.getId());
+        assertEquals(1, getFriend.getUserId());
+        assertEquals(2, getFriend.getFriendId());
+        assertFalse(getFriend.getIsAccepted());
+    }
+
+    @Test
+    public void updateFriendTest() {
+        Friends firstFriends = new Friends();
+        firstFriends.setUserId(1);
+        firstFriends.setFriendId(2);
+        firstFriends.setIsAccepted(false);
+        Friends createdFriend = dbFriendsStorage.createFriend(firstFriends);
+        Friends secondFriends = new Friends();
+        secondFriends.setId(createdFriend.getId());
+        secondFriends.setUserId(2);
+        secondFriends.setFriendId(3);
+        secondFriends.setIsAccepted(false);
+        Friends updatedFriends = dbFriendsStorage.updateFriend(secondFriends);
+        Friends getFriend = dbFriendsStorage.getFriend(updatedFriends.getId());
+        assertEquals(2, getFriend.getUserId());
+        assertEquals(3, getFriend.getFriendId());
+        assertFalse(getFriend.getIsAccepted());
+    }
+
+    @Test
+    public void deleteFriendTest() {
+        Friends friends = new Friends();
+        friends.setUserId(1);
+        friends.setFriendId(2);
+        friends.setIsAccepted(false);
+        Friends createdFriend = dbFriendsStorage.createFriend(friends);
+        assertTrue(dbFriendsStorage.deleteFriend(createdFriend.getId()));
+    }
+
+    @Test
+    public void createFilmTest() {
+        Film film = new Film();
+        film.setName("labore nulla");
+        LocalDate releaseDate = LocalDate.parse("1979-04-17");
+        film.setReleaseDate(releaseDate);
+        film.setDescription("Duis in consequat esse");
+        film.setDuration(100);
+        Rating mpa = new Rating();
+        film.setMpa(mpa);
+        Film createdFilm = dbFilmStorage.createFilm(film);
+        Film getFilm = dbFilmStorage.getFilm(createdFilm.getId());
+        assertEquals("labore nulla", getFilm.getName());
+        assertEquals(releaseDate, getFilm.getReleaseDate());
+        assertEquals("Duis in consequat esse", getFilm.getDescription());
+        assertEquals(100, getFilm.getDuration());
+    }
+
+    @Test
+    public void updateFilmTest() {
+        Film firstFilm = new Film();
+        firstFilm.setName("labore nulla");
+        LocalDate releaseDate = LocalDate.parse("1979-04-17");
+        firstFilm.setReleaseDate(releaseDate);
+        firstFilm.setDescription("Duis in consequat esse");
+        firstFilm.setDuration(100);
+        Rating mpa = new Rating();
+        firstFilm.setMpa(mpa);
+        mpa.setId(1);
+        Film createdFilm = dbFilmStorage.createFilm(firstFilm);
+        Film secondFilm = new Film();
+        secondFilm.setId(createdFilm.getId());
+        secondFilm.setName("Film Updated");
+        LocalDate secondFilmReleaseDate = LocalDate.parse("1989-04-17");
+        secondFilm.setReleaseDate(secondFilmReleaseDate);
+        secondFilm.setDescription("New film update decription");
+        secondFilm.setDuration(190);
+        Rating secondMpa = new Rating();
+        secondMpa.setId(2);
+        secondFilm.setMpa(secondMpa);
+        Film updatedFilm = dbFilmStorage.updateFilm(secondFilm);
+        Film getFilm = dbFilmStorage.getFilm(updatedFilm.getId());
+        assertEquals("Film Updated", getFilm.getName());
+        assertEquals(secondFilmReleaseDate, getFilm.getReleaseDate());
+        assertEquals("New film update decription", getFilm.getDescription());
+        assertEquals(190, getFilm.getDuration());
+    }
+
+    @Test
+    public void deleteFilmTest() {
+        Film film = new Film();
+        film.setName("labore nulla");
+        LocalDate releaseDate = LocalDate.parse("1979-04-17");
+        film.setReleaseDate(releaseDate);
+        film.setDescription("Duis in consequat esse");
+        film.setDuration(100);
+        Rating mpa = new Rating();
+        film.setMpa(mpa);
+        Film createdFilm = dbFilmStorage.createFilm(film);
+        assertTrue(dbFilmStorage.deleteFilm(createdFilm.getId()));
+    }
+
+    @Test
+    public void getAllFilmsTest() {
+        Film firstFilm = new Film();
+        firstFilm.setName("labore nulla");
+        LocalDate releaseDate = LocalDate.parse("1979-04-17");
+        firstFilm.setReleaseDate(releaseDate);
+        firstFilm.setDescription("Duis in consequat esse");
+        firstFilm.setDuration(100);
+        Rating mpa = new Rating();
+        firstFilm.setMpa(mpa);
+        Film firstCreatedFilm = dbFilmStorage.createFilm(firstFilm);
+        Film secondFilm = new Film();
+        secondFilm.setName("New film");
+        LocalDate secondFilmReleaseDate = LocalDate.parse("1999-04-30");
+        secondFilm.setReleaseDate(secondFilmReleaseDate);
+        secondFilm.setDescription("New film about friends");
+        secondFilm.setDuration(120);
+        Rating secondMpa = new Rating();
+        secondFilm.setMpa(secondMpa);
+        Film secondCreatedFilm = dbFilmStorage.createFilm(secondFilm);
+        for (Film film : dbFilmStorage.getAllFilms().values()) {
+            if (film.getId().equals(firstCreatedFilm.getId())) {
+                assertEquals("labore nulla", film.getName());
+                assertEquals(releaseDate, film.getReleaseDate());
+                assertEquals("Duis in consequat esse", film.getDescription());
+                assertEquals(100, film.getDuration());
+            } else if (film.getId().equals(secondCreatedFilm.getId())) {
+                assertEquals("New film", film.getName());
+                assertEquals(secondFilmReleaseDate, film.getReleaseDate());
+                assertEquals("New film about friends", film.getDescription());
+                assertEquals(120, film.getDuration());
+            }
+        }
+    }
 }
+

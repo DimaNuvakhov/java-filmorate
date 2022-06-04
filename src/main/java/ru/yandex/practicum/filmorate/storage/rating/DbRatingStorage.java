@@ -26,8 +26,6 @@ public class DbRatingStorage implements RatingStorage {
         return idMax;
     }
 
-    //(select max(id) + 1 from rating)
-
     @Override
     public Rating createRating(Rating rating) {
         rating.setId(getIdMax());
