@@ -172,32 +172,29 @@ public class DbFilmStorage implements FilmStorage {
         genres.setId(rs.getInt("id"));
         genres.setFilmId(rs.getInt("film_id"));
         genres.setGenreId(rs.getInt("user_id"));
-//        genres.setGenre();
+        genres.setGenre(getGenre(genres.getGenreId()));
         return genres;
     }
 
-    private Map<Integer, Genres> getFilmGenre(Integer genreId) {
-        Map<Integer, Genres> filmGenresMap = new HashMap<>();
-        List<Genres> filmGenresList = makeGenresList(genreId);
-        for (Genres genre : filmGenresList) {
-            filmGenresMap.put(genre.getId(), genre);
+    private Map<Integer, Genre> getGenre(Integer genreId) {
+        Map<Integer, Genre> filmGenreMap = new HashMap<>();
+        List<Genre> filmGenreList = makeGenreList(genreId);
+        for (Genre genre : filmGenreList) {
+            filmGenreMap.put(genre.getId(), genre);
         }
-        return filmGenresMap;
+        return filmGenreMap;
     }
 
-    private List<Genres> makeGenreList(Integer genreId) {
-        String sql = "select * from genres where id = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenres(rs), genreId);
+    private List<Genre> makeGenreList(Integer genreId) {
+        String sql = "select * from genre where id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenre(rs), genreId);
     }
 
-//    private Genres makeGenre(ResultSet rs) throws SQLException {
-//        Genres genres = new Genres();
-//        genres.setId(rs.getInt("id"));
-//        genres.setFilmId(rs.getInt("film_id"));
-//        genres.setGenreId(rs.getInt("user_id"));
-//        genres.setGenre();
-//        return genres;
-//    }
-
-
+    private Genre makeGenre(ResultSet rs) throws SQLException {
+        Genre genre = new Genre();
+        genre.setId(rs.getInt("id"));
+        genre.setValue(rs.getString("val"));
+        genre.setComment(rs.getString("comm"));
+        return genre;
+    }
 }
