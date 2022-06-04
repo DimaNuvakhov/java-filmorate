@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/films")
 public class FilmController extends Controller<Film> {
-    FilmService filmService;
+    private final FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {

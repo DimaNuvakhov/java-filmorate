@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.service.RatingService;
 @RequestMapping("/ratings")
 public class RatingController {
 
-    RatingService ratingService;
+    private final RatingService ratingService;
 
     @Autowired
     public RatingController(RatingService ratingService) {

@@ -28,6 +28,14 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidRatingException(final InvalidRatingException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidDescriptionException(final InvalidDescriptionException e) {
         return new ErrorResponse(
                 e.getMessage()

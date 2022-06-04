@@ -10,7 +10,7 @@ import ru.yandex.practicum.filmorate.service.LikesService;
 @RequestMapping("/likes")
 public class LikesController {
 
-    LikesService likesService;
+    private final LikesService likesService;
 
     @Autowired
     public LikesController(LikesService likesService) {

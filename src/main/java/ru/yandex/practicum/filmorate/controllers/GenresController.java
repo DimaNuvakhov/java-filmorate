@@ -11,7 +11,7 @@ import ru.yandex.practicum.filmorate.service.GenresService;
 @RequestMapping("/genres")
 public class GenresController {
 
-    GenresService genresService;
+    private final GenresService genresService;
 
     @Autowired
     public GenresController(GenresService genresService) {

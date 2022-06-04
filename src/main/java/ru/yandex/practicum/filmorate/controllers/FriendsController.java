@@ -15,7 +15,7 @@ public class FriendsController {
         this.friendsService = friendsService;
     }
 
-    FriendsService friendsService;
+    private final FriendsService friendsService;
 
     @PostMapping
     public Friends create(@RequestBody Friends friend) {
