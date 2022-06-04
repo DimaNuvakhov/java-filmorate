@@ -29,7 +29,6 @@ class FilmorateApplicationTests {
     private final DbRatingStorage dbRatingStorage;
     private final DbLikesStorage dbLikesStorage;
     private final DbGenresStorage dbGenresStorage;
-
     private final DbGenreStorage dbGenreStorage;
     private final DbFilmStorage dbFilmStorage;
 
@@ -270,14 +269,11 @@ class FilmorateApplicationTests {
 //        film.setReleaseDate(releaseDate);
 //        film.setDescription("Duis in consequat esse");
 //        film.setDuration(100);
-//        film.getMpa().setId(1);
 //        Film createdFilm = dbFilmStorage.createFilm(film);
 //        Film getFilm = dbFilmStorage.getFilm(createdFilm.getId());
-//        assertEquals("labore nulla", );
-//        assertEquals(releaseDate, );
-//        assertEquals("Duis in consequat esse", );
-//        assertEquals(100);
-//        assertEquals();
+//        assertEquals("labore nulla", getFilm.getName());
+//        assertEquals(releaseDate, getFilm.getReleaseDate());
+//        assertEquals("Duis in consequat esse", getFilm.getDescription());
+//        assertEquals(100, getFilm.getDuration());
 //    }
-
 }

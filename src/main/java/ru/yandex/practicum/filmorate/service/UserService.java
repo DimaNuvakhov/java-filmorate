@@ -107,7 +107,7 @@ public class UserService {
         Friends friend = new Friends();
         friend.setUserId(id);
         friend.setFriendId(friendId);
-        friend.setIsAccepted(true);
+        friend.setIsAccepted(false);
         friendsStorage.createFriend(friend);
         return true;
     }
@@ -136,5 +136,4 @@ public class UserService {
     public Boolean removeUserById (Integer userId) {
         return userStorage.deleteUser(userId);
     }
-
 }
