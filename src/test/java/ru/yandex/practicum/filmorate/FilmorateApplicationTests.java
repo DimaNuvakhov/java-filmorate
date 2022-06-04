@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class FilmorateApplicationTests {
 
     private final DbUserStorage dbUserStorage;
-    private final DbRatingStorage dbRatingStorage;
     private final DbLikesStorage dbLikesStorage;
     private final DbGenresStorage dbGenresStorage;
     private final DbGenreStorage dbGenreStorage;
@@ -116,42 +115,6 @@ class FilmorateApplicationTests {
                 assertEquals(birthday, user.getBirthday());
             }
         }
-    }
-
-    @Test
-    public void createRatingTest() {
-        Rating rating = new Rating();
-        rating.setValue("G");
-        rating.setComment("У фильма нет возрастных ограничений");
-        Rating createdRating = dbRatingStorage.createRating(rating);
-        Rating getRating = dbRatingStorage.getRating(createdRating.getId());
-        assertEquals("G", getRating.getValue());
-        assertEquals("У фильма нет возрастных ограничений", getRating.getComment());
-    }
-
-    @Test
-    public void updateRatingTest() {
-        Rating firstRating = new Rating();
-        firstRating.setValue("G");
-        firstRating.setComment("У фильма нет возрастных ограничений");
-        Rating createdRating = dbRatingStorage.createRating(firstRating);
-        Rating secondRating = new Rating();
-        secondRating.setId(createdRating.getId());
-        secondRating.setValue("PG");
-        secondRating.setComment("Детям рекомендуется смотреть фильм с родителями");
-        Rating updatedRating = dbRatingStorage.updateRating(secondRating);
-        Rating getRating = dbRatingStorage.getRating(updatedRating.getId());
-        assertEquals("PG", getRating.getValue());
-        assertEquals("Детям рекомендуется смотреть фильм с родителями", getRating.getComment());
-    }
-
-    @Test
-    public void deleteRatingTest() {
-        Rating rating = new Rating();
-        rating.setValue("G");
-        rating.setComment("У фильма нет возрастных ограничений");
-        Rating createdRating = dbRatingStorage.createRating(rating);
-        assertTrue(dbRatingStorage.deleteRating(createdRating.getId()));
     }
 
     @Test
