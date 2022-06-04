@@ -16,7 +16,6 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private Integer duration;
-    private Set<Integer> likes = new TreeSet<>();
     private Map<Integer, Likes> filmLikes= new HashMap<>();
     private Integer ratingId;
     private Rating mpa;

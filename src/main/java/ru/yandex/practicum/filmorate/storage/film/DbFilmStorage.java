@@ -127,6 +127,7 @@ public class DbFilmStorage implements FilmStorage {
         film.setRatingId(rs.getInt("rating_id"));
         film.setMpa(findRatingById(film.getId()));
         film.setFilmLikes(getFilmLikes(film.getId()));
+        film.setGenres(getFilmGenres(film.getId()));
         return film;
     }
 
@@ -151,5 +152,52 @@ public class DbFilmStorage implements FilmStorage {
         like.setUserId(rs.getInt("user_id"));
         return like;
     }
+
+    private Map<Integer, Genres> getFilmGenres(Integer filmId) {
+        Map<Integer, Genres> filmGenresMap = new HashMap<>();
+        List<Genres> filmGenresList = makeGenresList(filmId);
+        for (Genres genre : filmGenresList) {
+            filmGenresMap.put(genre.getId(), genre);
+        }
+        return filmGenresMap;
+    }
+
+    private List<Genres> makeGenresList(Integer filmId) {
+        String sql = "select * from genres where film_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenres(rs), filmId);
+    }
+
+    private Genres makeGenres(ResultSet rs) throws SQLException {
+        Genres genres = new Genres();
+        genres.setId(rs.getInt("id"));
+        genres.setFilmId(rs.getInt("film_id"));
+        genres.setGenreId(rs.getInt("user_id"));
+//        genres.setGenre();
+        return genres;
+    }
+
+    private Map<Integer, Genres> getFilmGenre(Integer genreId) {
+        Map<Integer, Genres> filmGenresMap = new HashMap<>();
+        List<Genres> filmGenresList = makeGenresList(genreId);
+        for (Genres genre : filmGenresList) {
+            filmGenresMap.put(genre.getId(), genre);
+        }
+        return filmGenresMap;
+    }
+
+    private List<Genres> makeGenreList(Integer genreId) {
+        String sql = "select * from genres where id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenres(rs), genreId);
+    }
+
+//    private Genres makeGenre(ResultSet rs) throws SQLException {
+//        Genres genres = new Genres();
+//        genres.setId(rs.getInt("id"));
+//        genres.setFilmId(rs.getInt("film_id"));
+//        genres.setGenreId(rs.getInt("user_id"));
+//        genres.setGenre();
+//        return genres;
+//    }
+
 
 }

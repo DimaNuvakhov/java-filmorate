@@ -26,11 +26,14 @@ public class DbRatingStorage implements RatingStorage {
         return idMax;
     }
 
+    //(select max(id) + 1 from rating)
+
     @Override
     public Rating createRating(Rating rating) {
         rating.setId(getIdMax());
-        String sqlQuery = "insert into rating (id, val, comm) values ((select max(id) + 1 from rating), ?, ?)";
+        String sqlQuery = "insert into rating (id, val, comm) values (?, ?, ?)";
         jdbcTemplate.update(sqlQuery,
+                rating.getId(),
                 rating.getValue(),
                 rating.getComment());
         return rating;
