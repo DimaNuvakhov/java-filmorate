@@ -85,8 +85,8 @@ public class DbFilmStorage implements FilmStorage {
             film.setDuration(filmRows.getInt("duration"));
             film.setRatingId(filmRows.getInt("rating_id"));
             film.setMpa(findRatingById(film.getRatingId()));
-            film.setFilmLikes(getFilmLikes(film.getId()));
-            film.setGenres(getFilmGenres(film.getId()));
+            film.setFilmLikes(makeLikesList(film.getId()));
+            film.setGenres(makeGenresList(film.getId()));
         }
         return film;
     }
@@ -129,18 +129,9 @@ public class DbFilmStorage implements FilmStorage {
         film.setDuration(rs.getInt("duration"));
         film.setRatingId(rs.getInt("rating_id"));
         film.setMpa(findRatingById(film.getRatingId()));
-        film.setFilmLikes(getFilmLikes(film.getId()));
-        film.setGenres(getFilmGenres(film.getId()));
+        film.setFilmLikes(makeLikesList(film.getId()));
+        film.setGenres(makeGenresList(film.getId()));
         return film;
-    }
-
-    private Map<Integer, Likes> getFilmLikes(Integer filmId) {
-        Map<Integer, Likes> filmLikesMap = new HashMap<>();
-        List<Likes> filmLikesList = makeLikesList(filmId);
-        for (Likes like : filmLikesList) {
-            filmLikesMap.put(like.getId(), like);
-        }
-        return filmLikesMap;
     }
 
     private List<Likes> makeLikesList(Integer filmId) {
@@ -156,15 +147,6 @@ public class DbFilmStorage implements FilmStorage {
         return like;
     }
 
-    private Map<Integer, Genres> getFilmGenres(Integer filmId) {
-        Map<Integer, Genres> filmGenresMap = new HashMap<>();
-        List<Genres> filmGenresList = makeGenresList(filmId);
-        for (Genres genre : filmGenresList) {
-            filmGenresMap.put(genre.getId(), genre);
-        }
-        return filmGenresMap;
-    }
-
     private List<Genres> makeGenresList(Integer filmId) {
         String sql = "select * from genres where film_id = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenres(rs), filmId);
@@ -175,17 +157,8 @@ public class DbFilmStorage implements FilmStorage {
         genres.setId(rs.getInt("id"));
         genres.setFilmId(rs.getInt("film_id"));
         genres.setGenreId(rs.getInt("user_id"));
-        genres.setGenre(getGenre(genres.getGenreId()));
+        genres.setGenre(makeGenreList(genres.getGenreId()));
         return genres;
-    }
-
-    private Map<Integer, Genre> getGenre(Integer genreId) {
-        Map<Integer, Genre> filmGenreMap = new HashMap<>();
-        List<Genre> filmGenreList = makeGenreList(genreId);
-        for (Genre genre : filmGenreList) {
-            filmGenreMap.put(genre.getId(), genre);
-        }
-        return filmGenreMap;
     }
 
     private List<Genre> makeGenreList(Integer genreId) {

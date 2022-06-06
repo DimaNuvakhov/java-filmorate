@@ -5,10 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Data
 public class User {
@@ -19,6 +16,6 @@ public class User {
     private String login;
     private String name;
     private LocalDate birthday;
-    private Map<Integer, Friends> myFriends = new HashMap<>();
-    private Map<Integer, Likes> favoriteFilms = new HashMap<>();
+    private List<Friends> myFriends = new ArrayList<>();
+    private List<Likes> favoriteFilms = new ArrayList<>();
 }

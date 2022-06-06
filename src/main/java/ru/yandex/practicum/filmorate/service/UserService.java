@@ -124,7 +124,7 @@ public class UserService {
     }
 
     public List<User> getUserFriends(Integer id) {
-        return userStorage.getAllUsers().get(id).getMyFriends().values().stream()
+        return userStorage.getAllUsers().get(id).getMyFriends().stream()
                 .map(u -> userStorage.getAllUsers().get(u.getFriendId()))
                 .collect(Collectors.toList());
     }
