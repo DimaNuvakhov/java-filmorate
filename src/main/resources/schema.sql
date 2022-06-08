@@ -29,20 +29,20 @@ rating_id integer references rating (id)
 
 create table if not exists genres (
 id integer primary key,
-film_id integer references films (id),
+film_id integer references films (id) on delete cascade,
 genre_id integer references genre (id)
 );
 
 create table if not exists likes (
 id integer primary key,
-film_id integer references films (id),
-user_id integer references users (id)
+film_id integer references films (id) on delete cascade,
+user_id integer references users (id) on delete cascade
 );
 
 create table if not exists friends (
 id integer primary key,
-user_id integer references users (id),
-friend_id integer references users (id),
+user_id integer references users (id) on delete cascade,
+friend_id integer references users (id) on delete cascade,
 is_accepted boolean
 );
 
